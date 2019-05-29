@@ -5,20 +5,34 @@
       <el-main>
         <el-form status-icon class="login-ruleForm">
           <div class="title">管理员登录</div>
-          <el-form-item class="inputuser" prop="pass">
+          <el-form-item class="inputuser">
             <label class="usericon">
               <i class="el-icon-s-custom"></i>
             </label>
-            <el-input class="info" type="text" v-model="ruleForm.username" autocomplete="off" placeholder="请输入帐号"></el-input>
+            <el-input
+              class="info"
+              type="text"
+              v-model="ruleForm.username"
+              autocomplete="off"
+              placeholder="请输入帐号"
+              clearable
+            ></el-input>
           </el-form-item>
-          <el-form-item class="inputpassword" prop="checkPass">
+          <el-form-item class="inputpassword">
             <label class="usericon">
               <i class="el-icon-lock"></i>
             </label>
-            <el-input class="info" type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
+            <el-input
+              class="info"
+              type="password"
+              v-model="ruleForm.password"
+              autocomplete="off"
+              placeholder="请输入密码"
+              clearable
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">登录</el-button>
+            <el-button type="primary" @click="loginIn" :loading="loading">登录</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -34,8 +48,22 @@ export default {
       ruleForm: {
         username: "",
         password: ""
-      }
+      },
+      loading: false
     };
+  },
+  methods: {
+    loginIn() {
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        this.$message({
+          type: "success",
+          message: "登录成功",
+          duration: 1000
+        });
+      }, 1000);
+    }
   }
 };
 </script>
@@ -44,15 +72,17 @@ export default {
 <style scoped>
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
-  color: #333;
+  background-color: #000;
+  color: #fff;
   text-align: center;
   line-height: 60px;
 }
 
 .el-main {
   height: 670px;
-background-image: url(https://gtms01.alicdn.com/tps/i1/TB1GTCYLXXXXXcHXpXXcoeQ2VXX-2500-600.jpg);
+  background: url(https://www.shanghaimuseum.net/museum/images/header-login.jpg)
+    no-repeat center top;
+  background-color: #000;
   color: #333;
   text-align: center;
 }
@@ -60,7 +90,7 @@ background-image: url(https://gtms01.alicdn.com/tps/i1/TB1GTCYLXXXXXcHXpXXcoeQ2V
 .login-ruleForm {
   width: 300px;
   padding: 25px;
-  background-color: 	#F5F5F5;
+  background-color: #f5f5f5;
   position: absolute;
   border-radius: 10px;
   top: 180px;
