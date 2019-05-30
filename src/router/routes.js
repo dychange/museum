@@ -58,5 +58,4 @@ export default [
         name:'Login',
         component:()=> import('../views/Login.vue')
       },
-      
 ]

@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-button class="add-btn" type="primary" @click="addAdmin">添加管理员</el-button>
-    <el-table style="width: 100%" :data="table_data">
-      <el-table-column label="管理员帐号" prop="admin"></el-table-column>
-      <el-table-column label="名字" prop="name"></el-table-column>
-      <el-table-column label="联系方式" prop="phone"></el-table-column>
-      <el-table-column label="账号类型" prop="usertype"></el-table-column>
-      <el-table-column label="开户日期" prop="date"></el-table-column>
+    <el-table style="width: 100%" :data="adminList">
+      <el-table-column label="管理员帐号" prop="account" ></el-table-column>
+      <el-table-column label="名字" prop="name" ></el-table-column>
+      <el-table-column label="联系方式" prop="phone" ></el-table-column>
+      <el-table-column label="账号类型" prop="usertype" ></el-table-column>
+      <el-table-column label="开户日期" prop="date" ></el-table-column>
       <el-table-column label="最后登录时间" prop="lastlogin"></el-table-column>
-      <el-table-column label="编辑">
+      <el-table-column label="编辑" >
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -27,20 +27,25 @@ export default {
   name: "Admin",
   methods: {
     handleEdit(index, row) {
-      this.editDialog = true;
+      this.editDialog = true
     },
     handleDelete(index, row) {
       console.log(index, row);
     },
     addAdmin() {
       this.addDialog = true;
-    }
+    },
   },
   data() {
     return {
-      table_data: [
+      adminList: [
         {
-          admin: "123"
+          account: "123",
+          name:'蔡徐坤',
+          phone:'123456789',
+          usertype:'客服',
+          date:'2019年5月30日 13:43:47',
+          lastlogin:'2019年5月30日 13:44:14'
         }
       ],
       editDialog: false,

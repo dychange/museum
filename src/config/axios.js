@@ -1,4 +1,5 @@
-
+import {startLoading,endLoading} from '../lib/loading'
+import {clearLocalStorage,getUserInfoMessage} from "../utils/localStorage"
 const axios = require('axios')
 const {baseURL} = require('./index')
 
@@ -25,9 +26,9 @@ class HttpRequest {
             startLoading()
             
             // 将Token设置到headers中
-            if(localStorage.elToken)
-                config.headers.Authorization = localStorage.elToken
-
+            if(getUserInfoMessage('userInfo'))
+                config.headers.Authorization = getUserInfoMessage('userInfo').token
+                
             return config
         }, err => {
             return Promise.reject(err)
@@ -38,9 +39,9 @@ class HttpRequest {
             endLoading()
             let {msg,status} = res.data
             if (status === 403) {
-                Message.error('账号已失效，请重新登录')
+                this.$message.error('账号已失效，请重新登录')
                 clearLocalStorage()
-                // router.replace('/login')
+                this.$router.replace('/login')
             }
             return res
         }, err => {

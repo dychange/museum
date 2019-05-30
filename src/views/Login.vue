@@ -12,10 +12,10 @@
             <el-input
               class="info"
               type="text"
-              v-model="ruleForm.username"
-              autocomplete="off"
+              v-model="username"
               placeholder="请输入帐号"
               clearable
+              @keyup.enter.native="loginIn"
             ></el-input>
           </el-form-item>
           <el-form-item class="inputpassword">
@@ -25,14 +25,14 @@
             <el-input
               class="info"
               type="password"
-              v-model="ruleForm.password"
-              autocomplete="off"
+              v-model="password"
               placeholder="请输入密码"
               clearable
+              @keyup.enter.native="loginIn"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="loginIn" :loading="loading">登录</el-button>
+            <el-button type="primary" @click="loginIn">登录</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -41,28 +41,63 @@
 </template>
 
 <script>
+import { login } from "../api/user";
+import { saveUserInfo, getUserInfo } from "../utils/localStorage";
+import { competitionMixin } from "../utils/mixins";
+import { getUserInfoMessage } from "../utils/localStorage";
 export default {
   name: "Login",
+  mixins: [competitionMixin],
   data() {
     return {
-      ruleForm: {
-        username: "",
-        password: ""
-      },
-      loading: false
+      username: "",
+      password: ""
     };
   },
   methods: {
     loginIn() {
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.$message({
-          type: "success",
-          message: "登录成功",
-          duration: 1000
+      if (this.username === "" || this.password === "") {
+        this.$message.warning({
+          message: "用户名或密码不能为空",
+          duration: 1500
         });
-      }, 1000);
+      } else {
+        let username = this.username;
+        let password = this.password;
+        let userInfo = `username=${username}&password=${password}`;
+        login(userInfo)
+          .then(result => {
+            console.log(result);
+            let status = result.data.status;
+            if (status === 400) {
+              this.$message.error({
+                message: result.data.msg,
+                duration: 1500
+              });
+            } else if (status === 200) {
+              if (result.data.info.nickname === null) {
+                this.setUserInfo(username);
+              } else {
+                this.setUserInfo(result.data.info.nickname);
+              }
+              this.setApplyId(result.data.info.id);
+              saveUserInfo("userInfo", result.data.info);
+              this.$message.success({
+                message: "登录成功",
+                duration: 1500
+              });
+              this.$router.push("/");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    }
+  },
+  mounted() {
+    if (getUserInfoMessage("userInfo")) {
+      this.$router.replace("/");
     }
   }
 };

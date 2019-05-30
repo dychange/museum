@@ -1,12 +1,12 @@
 <template>
   <el-container>
     <el-header>
-      <el-dropdown class="dropdown" trigger="click">
+      <el-dropdown class="dropdown" trigger="click" >
         <span>
-          欢迎,管理员:ABC
+          {{nickname}}
           <i class="el-icon-setting"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" >
           <el-dropdown-item>退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -22,11 +22,18 @@
 
 <script>
 import HomeMenu from "./Menu";
+import {getUserInfoMessage} from '../utils/localStorage'
 export default {
   name: "home",
   components: {
     HomeMenu
-  }
+  },
+  computed: {
+    nickname(){
+      let nickname=getUserInfoMessage('userInfo').nickname
+      return nickname
+    }
+  },
 };
 </script>
 
@@ -46,7 +53,7 @@ export default {
 }
 .dropdown{
   float: right;
-  font-size: 20px;
+  font-size: 18px;
   margin-right: 20px;
 }
 </style>
