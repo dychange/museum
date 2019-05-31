@@ -42,9 +42,8 @@
 
 <script>
 import { login } from "../api/user";
-import { saveUserInfo, getUserInfo } from "../utils/localStorage";
+import { saveUserInfo,getUserInfoMessage } from "../utils/localStorage";
 import { competitionMixin } from "../utils/mixins";
-import { getUserInfoMessage } from "../utils/localStorage";
 export default {
   name: "Login",
   mixins: [competitionMixin],
@@ -55,6 +54,7 @@ export default {
     };
   },
   methods: {
+    //登录
     loginIn() {
       if (this.username === "" || this.password === "") {
         this.$message.warning({
@@ -75,12 +75,7 @@ export default {
                 duration: 1500
               });
             } else if (status === 200) {
-              if (result.data.info.nickname === null) {
                 this.setUserInfo(username);
-              } else {
-                this.setUserInfo(result.data.info.nickname);
-              }
-              this.setApplyId(result.data.info.id);
               saveUserInfo("userInfo", result.data.info);
               this.$message.success({
                 message: "登录成功",
@@ -96,6 +91,7 @@ export default {
     }
   },
   mounted() {
+    //加载页面时判断是否有用户缓存,如果有则表示已登录,再返回主页
     if (getUserInfoMessage("userInfo")) {
       this.$router.replace("/");
     }

@@ -5,8 +5,8 @@
         <el-input v-model="searchphone" placeholder="输入要查询的手机号" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search">搜索</el-button>
-        <el-button type="primary" icon="el-icon-refresh-right" @click="searchphone=''">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+        <el-button type="primary" icon="el-icon-refresh-right"  >重置</el-button>
       </el-form-item>
     </el-form>
     <el-table style="width: 100%" :data="userList">
@@ -48,6 +48,25 @@ export default {
         }
       ],
     };
+  },
+  methods: {
+    search(){
+      if(this.searchphone===''){
+        return this.$message.warning({
+          message:'请输入手机号',
+          duration:2000
+        })
+      }else{
+        let searchRes=[]
+        for(let i in this.userList){
+          this.userList[i].forEach(val=>{
+            if(val.phone.indexOf(this.searchphone) !=-1){
+
+            }
+          })
+        }
+      }
+    },
   }
 };
 </script>
