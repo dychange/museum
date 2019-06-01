@@ -1,7 +1,10 @@
 import {startLoading,endLoading} from '../lib/loading'
 import {clearLocalStorage,getUserInfoMessage} from "../utils/localStorage"
+import {Message} from 'element-ui'
+import router from '../router/router'
 const axios = require('axios')
 const {baseURL} = require('./index')
+
 
 class HttpRequest {
     constructor(baseUrl = baseURL) {
@@ -23,8 +26,9 @@ class HttpRequest {
         instance.interceptors.request.use(config => {
             //  如果队列中没有请求则开始加载动画
             console.log('请求拦截：',config)
-            startLoading()
-            
+            if(config.url!=='/memberInfo/verification'){
+                startLoading()
+            }
             // 将Token设置到headers中
             if(getUserInfoMessage('userInfo'))
                 config.headers.Authorization = getUserInfoMessage('userInfo').token
@@ -37,14 +41,16 @@ class HttpRequest {
         // 响应拦截
         instance.interceptors.response.use(res => {
             endLoading()
-            let {msg,status} = res.data
-            if (status === 403) {
-                this.$message.error('账号已失效，请重新登录')
+            let {msg,status}=res.data
+            if (status === 0) {
+                Message.error(msg)
                 clearLocalStorage()
-                this.$router.replace('/login')
+                router.replace('/login')
             }
+            console.log(res)
             return res
         }, err => {
+           
         })
     }
     request(options, url) {

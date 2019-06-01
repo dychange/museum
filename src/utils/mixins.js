@@ -4,13 +4,13 @@ export const competitionMixin = {
     computed: {
         ...mapGetters([
           'nickname',
-          'applyId',
+          'applyId'
         ])
       },
     methods: {
       ...mapActions([
         'setUserInfo',
-        'setApplyId',
+        'setApplyId'
       ])
     }
 }

@@ -14,9 +14,7 @@
     <el-container>
       <home-menu></home-menu>
       <el-main>
-        <keep-alive>
         <router-view></router-view>
-        </keep-alive>
       </el-main>
     </el-container>
   </el-container>

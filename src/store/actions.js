@@ -4,7 +4,7 @@ const actions={
       },
       setApplyId: ( { commit }, applyId) => {
         return commit('user/SET_APPLY_ID', applyId)
-      },
+      }
 }
 
 export default actions

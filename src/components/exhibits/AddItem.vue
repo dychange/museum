@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="新增管理员信息"
+    title="新增展品信息"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
@@ -9,24 +9,24 @@
     <el-form
       label-position="top"
       status-icon
-      :model="newAdminInfo"
+      :model="newItemInfo"
       :rules="rules"
-      ref="newAdminInfo"
+      ref="newItemInfo"
     >
       <el-form-item label="帐号" prop="userName">
-        <el-input v-model="newAdminInfo.userName" class="Infoinput" @focus="clear"></el-input>
+        <el-input v-model="newItemInfo.userName" @focus="clear"></el-input>
       </el-form-item>
       <el-form-item label="联系方式" prop="telephone">
-        <el-input type="text" v-model="newAdminInfo.telephone" ></el-input>
+        <el-input type="text" v-model="newItemInfo.telephone" ></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="newAdminInfo.password" ></el-input>
+        <el-input type="password" v-model="newItemInfo.password" ></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkpass">
-        <el-input type="password" v-model="newAdminInfo.checkpass" ></el-input>
+        <el-input type="password" v-model="newItemInfo.checkpass" ></el-input>
       </el-form-item>
       <el-form-item label="账号类型" required>
-        <el-select v-model="newAdminInfo.memberAccountTypeId" placeholder="请选择">
+        <el-select v-model="newItemInfo.memberAccountTypeId" placeholder="请选择">
           <el-option
             v-for="item in types"
             :key="item.value"
@@ -37,16 +37,15 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="createAdmin('newAdminInfo')">创建</el-button>
+      <el-button type="primary" @click="createItem('newItemInfo')">创建</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
-import { addAdmin, checkName } from "../../api/adminList";
 export default {
-  name: "Add",
+  name: "AddItem",
   props: {
     addDialog: {
       type: Boolean,
@@ -56,36 +55,22 @@ export default {
   methods: {
     closeDialog() {
       this.$nextTick(() => {
-        this.$refs["newAdminInfo"].resetFields();
-        this.newAdminInfo.memberAccountTypeId = "";
+        this.$refs["newItemInfo"].resetFields();
+        this.newItemInfo.memberAccountTypeId = "";
       });
       this.$emit("update:addDialog", false);
     },
     // 创建新的管理员
-    createAdmin(formName) {
+    createItem(formName) {
       // 表单提交验证
       this.$refs[formName].validate(valid => {
-        if (valid && this.newAdminInfo.memberAccountTypeId != undefined) {
-          let AdminInfo = this.newAdminInfo;
-          addAdmin(AdminInfo).then(result => {
-            if (result.data.status === 200) {
-              this.$message.success("创建成功");
-              this.$emit("getAllAdminList");
-              this.$refs[formName].resetFields();
-              this.newAdminInfo.memberAccountTypeId = "";
-              this.$emit("update:addDialog", false);
-            } else if (result.data.status === 400) {
-              this.$message.error(result.data.msg);
-            }
-            console.log(result);
-          });
-        } else {
-          this.$message.error("请填写正确信息");
+        if (valid && this.newItemInfo.memberAccountTypeId != undefined) {
+          let ItemInfo = this.newItemInfo;
         }
       });
     },
     clear(){
-      this.$refs["newAdminInfo"].clearValidate()
+      this.$refs["newItemInfo"].clearValidate()
     }
   },
   data() {
@@ -98,18 +83,8 @@ export default {
         callback();
       }
     };
-    var checkUser = (rule, value, callback) => {
-      let userName = value;
-      checkName({ userName }).then(result => {
-        if (result.data.status === 400) {
-          callback(new Error(result.data.msg));
-        }
-        console.log(result);
-        callback();
-      });
-    };
     return {
-      newAdminInfo: {
+      newItemInfo: {
         userName: "",
         password: "",
         telephone: null,
@@ -122,10 +97,6 @@ export default {
           {
             pattern: "^[a-zA-Z0-9]",
             message: "只能由英文,数字组成",
-            trigger: "blur"
-          },
-          {
-            validator: checkUser,
             trigger: "blur"
           },
           {
