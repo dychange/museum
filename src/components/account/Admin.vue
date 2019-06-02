@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="primary" @click="getAllAdminList">刷新</el-button>
+    <el-button type="primary" @click="currentChange">刷新</el-button>
     <el-button class="add-btn" type="primary" @click="addAdmin">添加管理员</el-button>
     <el-table style="width: 100%" :data="adminList">
       <el-table-column label="管理员帐号" prop="userName" width="150"></el-table-column>

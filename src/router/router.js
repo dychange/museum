@@ -13,7 +13,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if(!getUserInfoMessage('userInfo') && to.path!=='/login'){
-    Message.error('请登录')
+    Message.error('用户已过期,请重新登录')
     next('/login')
   }else{
     next()

@@ -58,4 +58,13 @@ export default [
         name:'Login',
         component:()=> import('../views/Login.vue')
       },
+      {
+        path:'/404',
+        name:'NotFound',
+        component:()=> import('../views/404.vue')
+      },
+      {
+        path:'*',
+        redirect:'/404'
+      }
 ]

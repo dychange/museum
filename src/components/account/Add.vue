@@ -98,7 +98,7 @@ export default {
         callback();
       }
     };
-    var checkUser = (rule, value, callback) => {
+    const checkUser = (rule, value, callback) => {
       let userName = value;
       checkName({ userName }).then(result => {
         if (result.data.status === 400) {

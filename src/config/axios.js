@@ -26,7 +26,7 @@ class HttpRequest {
         instance.interceptors.request.use(config => {
             //  如果队列中没有请求则开始加载动画
             console.log('请求拦截：',config)
-            if(config.url!=='/memberInfo/verification'){
+            if(!config.url.endsWith('/verification')){
                 startLoading()
             }
             // 将Token设置到headers中
@@ -47,10 +47,9 @@ class HttpRequest {
                 clearLocalStorage()
                 router.replace('/login')
             }
-            console.log(res)
             return res
         }, err => {
-           
+           return Promise.reject(err)
         })
     }
     request(options, url) {

@@ -6,44 +6,35 @@
     :before-close="closeDialog"
     :close-on-click-modal="false"
   >
-    <el-form
-      label-position="top"
-      status-icon
-      :model="newItemInfo"
-      :rules="rules"
-      ref="newItemInfo"
-    >
-      <el-form-item label="帐号" prop="userName">
-        <el-input v-model="newItemInfo.userName" @focus="clear"></el-input>
+    <el-form label-position="top" status-icon :model="newItemInfo" :rules="rules" ref="newItemInfo">
+      <el-form-item label="展品名称" prop="name">
+        <el-input v-model="newItemInfo.name"></el-input>
       </el-form-item>
-      <el-form-item label="联系方式" prop="telephone">
-        <el-input type="text" v-model="newItemInfo.telephone" ></el-input>
+      <el-form-item label="展品文字说明" prop="info">
+        <el-input type="textarea" v-model="newItemInfo.info" ></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="newItemInfo.password" ></el-input>
+      <el-form-item label="图片名称" prop="imgName">
+        <el-input v-model="newItemInfo.imgName"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="checkpass">
-        <el-input type="password" v-model="newItemInfo.checkpass" ></el-input>
+      <el-form-item label="音频名称" prop="audioName">
+        <el-input v-model="newItemInfo.audioName"></el-input>
       </el-form-item>
-      <el-form-item label="账号类型" required>
-        <el-select v-model="newItemInfo.memberAccountTypeId" placeholder="请选择">
-          <el-option
-            v-for="item in types"
-            :key="item.value"
-            :value="item.value"
-            :label="item.label"
-          ></el-option>
+         <el-form-item label="展品类型"  required >
+        <el-select v-model="newItemInfo.typeId" filterable placeholder="请选择">
+          <el-option v-for="item in types" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="createItem('newItemInfo')">创建</el-button>
+      <el-button type="primary" @click="createItem('newItemInfo')">添加</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
+import { getTypeName, addItem } from "../../api/item";
+import { getUserInfoMessage } from "../../utils/localStorage";
 export default {
   name: "AddItem",
   props: {
@@ -56,119 +47,72 @@ export default {
     closeDialog() {
       this.$nextTick(() => {
         this.$refs["newItemInfo"].resetFields();
-        this.newItemInfo.memberAccountTypeId = "";
       });
+      this.newItemInfo.typeId = null;
       this.$emit("update:addDialog", false);
     },
-    // 创建新的管理员
+    // 创建新的商品
     createItem(formName) {
       // 表单提交验证
       this.$refs[formName].validate(valid => {
-        if (valid && this.newItemInfo.memberAccountTypeId != undefined) {
+        if (valid && this.newItemInfo.typeId !== null) {
+          this.newItemInfo.operatorId = getUserInfoMessage("userInfo").id;
           let ItemInfo = this.newItemInfo;
+          addItem(ItemInfo).then(result => {
+            if (result.data.status === 200) {
+              this.$message.success("添加成功");
+              this.$refs["newItemInfo"].resetFields();
+              this.$emit("update:addDialog", false);
+              this.newItemInfo.typeId = null;
+              this.$emit("getAllItem");
+            } else if (result.data.status === 400) {
+              this.$message.error("添加失败");
+            }
+            console.log(result);
+          });
+        }else{
+            this.$message.error('请选择展品类型')
         }
       });
-    },
-    clear(){
-      this.$refs["newItemInfo"].clearValidate()
     }
   },
   data() {
-    const validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.newAdminInfo.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       newItemInfo: {
-        userName: "",
-        password: "",
-        telephone: null,
-        memberAccountTypeId: this.value,
-        checkpass: ""
+        typeId: null,
+        name: "",
+        info: "",
+        operatorId: null,
+        audioName:'',
+        imgName:''
       },
+      types: [],
       rules: {
-        userName: [
-          { required: true, message: "用户名不能为空", trigger: "blur" },
-          {
-            pattern: "^[a-zA-Z0-9]",
-            message: "只能由英文,数字组成",
-            trigger: "blur"
-          },
-          {
-            max: 18,
-            message: "最大只能18位",
-            trigger: "blur"
-          }
-        ],
-        telephone: [
+        name: [
           {
             pattern: "^[^ ]+$",
             message: "不能有空格",
             trigger: "blur"
           },
           {
-            pattern: "^[0-9]",
-            message: "只能由数字组成",
-            trigger: "blur"
-          },
-          {
             required: true,
-            message: "联系方式不能为空",
-            trigger: "blur"
-          },
-          {
-            max: 11,
-            message: "最大只能11位",
+            message: "展品名称不能为空",
             trigger: "blur"
           }
-        ],
-        password: [
-          {
-            required: true,
-            message: "密码不能为空",
-            trigger: "blur"
-          },
-          {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
-            trigger: "blur"
-          },
-          {
-            max: 18,
-            message: "最大只能18位密码",
-            trigger: "blur"
-          }
-        ],
-        checkpass: [
-          {
-            required: true,
-            message: "请再次输入密码",
-            trigger: "blur"
-          },
-          { validator: validatePass2, trigger: "blur" }
         ]
-      },
-      value: "",
-      types: [
-        {
-          value: 1,
-          label: "超级管理员"
-        },
-        {
-          value: 2,
-          label: "管理员"
-        },
-        {
-          value: 3,
-          label: "客服"
-        }
-      ]
+      }
     };
+  },
+  mounted() {
+    getTypeName().then(result => {
+      let info = result.data.info;
+      let obj = { value: "" };
+      for (let i in info) {
+        obj.value = info[i].typeName;
+        Object.assign(info[i], obj);
+      }
+      this.types = info;
+    });
   }
 };
 </script>

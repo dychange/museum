@@ -22,10 +22,9 @@
 
 <script>
 import HomeMenu from "./Menu";
-import {getUserInfoMessage , saveUserInfo ,removeLocalStorage} from '../utils/localStorage'
+import {getUserInfoMessage , saveUserInfo ,clearLocalStorage} from '../utils/localStorage'
 import {competitionMixin} from '../utils/mixins'
 import {mapGetters} from 'vuex'
-import {startLoading, endLoading} from '../lib/loading'
 export default {
   name: "home",
   mixins:[competitionMixin],
@@ -37,14 +36,12 @@ export default {
     dropDownEvents(command){
       switch (command) {
         case 'exit':
-          startLoading()
-          removeLocalStorage('userInfo-enterprise')
+          clearLocalStorage()
           this.$message.success({
             message:'已退出',
             duration:1000
           })
           this.$router.replace('/login')
-          endLoading()
           break;
       }
     }
