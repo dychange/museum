@@ -58,8 +58,6 @@ export default {
               this.$refs["newItemTypeInfo"].resetFields();
               this.$emit("update:addDialog", false);
               this.$emit('getAllItemTypeList')
-            }else if(result.data.status === 400){
-              this.$message.error('添加失败')
             }
           });
         }
@@ -74,7 +72,7 @@ export default {
       let typeName = value;
       checkItemTypeName({ typeName }).then(result => {
         if (result.data.status === 400) {
-          callback(new Error(result.data.msg));
+          callback(new Error());
         }
         console.log(result);
         callback();

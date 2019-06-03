@@ -69,12 +69,7 @@ export default {
           .then(result => {
             console.log(result);
             let status = result.data.status;
-            if (status === 400) {
-              this.$message.error({
-                message: result.data.msg,
-                duration: 1500
-              });
-            } else if (status === 200) {
+            if (status === 200) {
                 this.setUserInfo(username);
               saveUserInfo("userInfo", result.data.info);
               this.$message.success({

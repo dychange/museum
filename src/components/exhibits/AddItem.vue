@@ -65,8 +65,6 @@ export default {
               this.$emit("update:addDialog", false);
               this.newItemInfo.typeId = null;
               this.$emit("getAllItem");
-            } else if (result.data.status === 400) {
-              this.$message.error("添加失败");
             }
             console.log(result);
           });

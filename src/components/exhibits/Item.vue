@@ -74,8 +74,6 @@ export default {
         if(result.data.status === 200){
           this.$message.success('删除成功')
           this.currentChange(this.paginations.currentPage)
-        }else if(result.data.status === 400){
-          this.$message.error(result.data.msg)
         }
       })
     },
@@ -87,8 +85,6 @@ export default {
         if (result.data.status === 200) {
           this.itemList = handleItemData(result);
           this.paginations.total = result.data.info.total;
-        } else if (result.data.status === 400) {
-          this.$message.error(result.data.msg);
         }
         console.log(result);
       });
@@ -101,9 +97,7 @@ export default {
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleItemData(result);
-        } else if (result.data.status === 400) {
-          this.$message.error(result.data.msg);
-        }
+        } 
       });
     }
   },

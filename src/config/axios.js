@@ -42,13 +42,24 @@ class HttpRequest {
         instance.interceptors.response.use(res => {
             endLoading()
             let {msg,status}=res.data
-            if (status === 0) {
+            if (status === 401) {
                 Message.error(msg)
                 clearLocalStorage()
                 router.replace('/login')
+            }else if( status === 403){
+                Message.error(msg)
+                router.replace('/')
+            }else if( status === 400){
+                Message.error(msg)
             }
             return res
         }, err => {
+            if(err.response.status === 500){
+                Message.error('服务器被程序员吃了ヾﾉ≧∀≦)o')
+                endLoading()
+            }else if(err.response.status === 404){
+                router.replace('/404')
+            }
            return Promise.reject(err)
         })
     }

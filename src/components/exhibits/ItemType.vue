@@ -38,7 +38,9 @@ export default {
         page: this.paginations.currentPage,
         rows: 8
       }).then(result => {
+        if(result.data.status === 200){
         this.itemTypeList = result.data.info.rows;
+        }
         console.log(result);
       });
     },
@@ -47,8 +49,10 @@ export default {
         page: 1,
         rows: 8
       }).then(result => {
+        if(result.data.status === 200){
         this.itemTypeList = result.data.info.rows;
         this.paginations.total = result.data.info.total;
+        }
         console.log(result);
       });
     }

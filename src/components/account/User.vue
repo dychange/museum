@@ -63,7 +63,9 @@ export default {
         page: this.paginations.currentPage,
         rows: 8
       }).then(result => {
+        if(result.data.status === 200){
         this.userList=handleUserData(result)
+        }
         console.log(result);
       });
     },
@@ -73,8 +75,10 @@ export default {
         rows: 8
       })
         .then(result => {
+          if(result.data.status === 200){
           this.userList=handleUserData(result)
           this.paginations.total = result.data.info.total;
+          }
           console.log(result);
         })
     }

@@ -59,8 +59,6 @@ export default {
             this.$emit("currentChange",this.curpage);
             this.$refs[formName].resetFields();
             console.log(result);
-          }else if(result.data.status === 400){
-            this.$message.error(result.data.msg)
           }
         });
       }else{

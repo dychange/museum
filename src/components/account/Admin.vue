@@ -57,11 +57,6 @@ export default {
             duration: 1500
           }),
             this.currentChange(this.paginations.currentPage);
-        } else if( result.data.status === 400){
-          this.$message.error({
-            message: result.data.msg,
-            duration: 1500
-          });
         }
       });
     },
@@ -75,8 +70,10 @@ export default {
         rows: 8
       }).then(result => {
         // handleData将获取的数据进行一些转换
+        if(result.data.status === 200){
        this.adminList= handleAdminData(result)
         this.paginations.total = result.data.info.total;
+        }
         console.log(result);
       });
     },
@@ -86,7 +83,9 @@ export default {
         page: this.paginations.currentPage,
         rows: 8
       }).then(result => {
+        if(result.data.status === 200){
         this.adminList= handleAdminData(result)
+        }
         console.log(result);
       });
     },

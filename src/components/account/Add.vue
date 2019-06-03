@@ -74,8 +74,6 @@ export default {
               this.$refs[formName].resetFields();
               this.newAdminInfo.memberAccountTypeId = "";
               this.$emit("update:addDialog", false);
-            } else if (result.data.status === 400) {
-              this.$message.error(result.data.msg);
             }
             console.log(result);
           });
@@ -102,7 +100,7 @@ export default {
       let userName = value;
       checkName({ userName }).then(result => {
         if (result.data.status === 400) {
-          callback(new Error(result.data.msg));
+          callback(new Error());
         }
         console.log(result);
         callback();
