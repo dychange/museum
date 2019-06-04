@@ -14,10 +14,10 @@
       ref="newItemTypeInfo"
     >
       <el-form-item label="展品类型名称" prop="typeName">
-        <el-input v-model="newItemTypeInfo.typeName" @focus="clear"></el-input>
+        <el-input v-model="newItemTypeInfo.typeName" @focus="clear('typeName')"></el-input>
       </el-form-item>
       <el-form-item label="备注信息" prop="remark">
-        <el-input v-model="newItemTypeInfo.remark"></el-input>
+        <el-input v-model="newItemTypeInfo.remark" @focus="clear('remark')"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -63,16 +63,16 @@ export default {
         }
       });
     },
-    clear() {
-      this.$refs["newItemTypeInfo"].clearValidate();
+    clear(prop) {
+      this.$refs["newItemTypeInfo"].clearValidate(prop);
     }
   },
   data() {
     const checkTypeName = (rule, value, callback) => {
       let typeName = value;
       checkItemTypeName({ typeName }).then(result => {
-        if (result.data.status === 400) {
-          callback(new Error());
+        if (result.data.status === 412 ) {
+          callback(new Error(result.data.msg));
         }
         console.log(result);
         callback();

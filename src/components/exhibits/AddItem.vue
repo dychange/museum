@@ -8,18 +8,18 @@
   >
     <el-form label-position="top" status-icon :model="newItemInfo" :rules="rules" ref="newItemInfo">
       <el-form-item label="展品名称" prop="name">
-        <el-input v-model="newItemInfo.name"></el-input>
+        <el-input v-model="newItemInfo.name" @focus="clear('name')"></el-input>
       </el-form-item>
       <el-form-item label="展品文字说明" prop="info">
-        <el-input type="textarea" v-model="newItemInfo.info" ></el-input>
+        <el-input type="textarea" v-model="newItemInfo.info"></el-input>
       </el-form-item>
       <el-form-item label="图片名称" prop="imgName">
-        <el-input v-model="newItemInfo.imgName"></el-input>
+        <el-input v-model="newItemInfo.imgName" @focus="clear('imgName')"></el-input>
       </el-form-item>
       <el-form-item label="音频名称" prop="audioName">
-        <el-input v-model="newItemInfo.audioName"></el-input>
+        <el-input v-model="newItemInfo.audioName" @focus="clear('audioName')"></el-input>
       </el-form-item>
-         <el-form-item label="展品类型"  required >
+      <el-form-item label="展品类型" required>
         <el-select v-model="newItemInfo.typeId" filterable placeholder="请选择">
           <el-option v-for="item in types" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
         </el-select>
@@ -68,10 +68,13 @@ export default {
             }
             console.log(result);
           });
-        }else{
-            this.$message.error('请选择展品类型')
+        } else {
+          this.$message.error("请选择展品类型");
         }
       });
+    },
+    clear(prop){
+      this.$refs["newItemInfo"].clearValidate(prop)
     }
   },
   data() {
@@ -81,8 +84,8 @@ export default {
         name: "",
         info: "",
         operatorId: null,
-        audioName:'',
-        imgName:''
+        audioName: "",
+        imgName: ""
       },
       types: [],
       rules: {
@@ -97,19 +100,35 @@ export default {
             message: "展品名称不能为空",
             trigger: "blur"
           }
+        ],
+        imgName:[
+          {
+            required: true,
+            message: "图片名称不能为空",
+            trigger: "blur"
+          }
+        ],
+        audioName:[
+           {
+            required: true,
+            message: "音频名称不能为空",
+            trigger: "blur"
+          }
         ]
       }
     };
   },
   mounted() {
     getTypeName().then(result => {
-      let info = result.data.info;
-      let obj = { value: "" };
-      for (let i in info) {
-        obj.value = info[i].typeName;
-        Object.assign(info[i], obj);
+      if (result.data.status === 200) {
+        let info = result.data.info;
+        let obj = { value: "" };
+        for (let i in info) {
+          obj.value = info[i].typeName;
+          Object.assign(info[i], obj);
+        }
+        this.types = info;
       }
-      this.types = info;
     });
   }
 };

@@ -10,7 +10,6 @@
       </el-form-item>
     </el-form>
     <el-table style="width: 100%" :data="userList">
-      <el-table-column prop="userId" label="ID"  align="center"></el-table-column>
       <el-table-column label="头像" width="70" align="center">
         <template slot-scope="scope">
           <el-image :src="scope.row.headImg">

@@ -2,6 +2,9 @@ import {formatDate} from './formate'
 
 const handleAdminData=(result)=>{
     let list = result.data.info.rows;
+    for(let j in list){
+      Object.assign(list[j],{memberAccountId:list[j].memberAccountTypeId})
+    }
     for (let i in list) {
       let openDate = formatDate(list[i].openDate);
       let lastLoginDate = formatDate(list[i].lastLoginDate);

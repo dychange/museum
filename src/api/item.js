@@ -55,6 +55,14 @@ const delItem=(data)=>{
     })
 }
 
+const updateItem=(data)=>{
+    return axios.request({
+        url:'/itemInfo/update',
+        method:'post',
+        data
+    })
+}
+
 export {
     getItemTypeInfo,
     addItemType,
@@ -62,5 +70,6 @@ export {
     getItemInfo,
     addItem,
     getTypeName,
-    delItem
+    delItem,
+    updateItem
 }

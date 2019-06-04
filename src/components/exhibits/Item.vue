@@ -1,6 +1,6 @@
 <template>
   <div>
-          <el-button class="add-btn" type="primary" @click="addDialog=true">新增展品</el-button>
+    <el-button class="add-btn" type="primary" @click="addDialog=true">新增展品</el-button>
     <el-table :data="itemList" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -52,30 +52,57 @@
         </div>
       </el-col>
     </el-row>
-    <add-item :addDialog.sync="addDialog" @getAllItem='getAllItem'></add-item>
-    <item-edit :editDialog.sync="editDialog"></item-edit>
+    <add-item :addDialog.sync="addDialog" @getAllItem="getAllItem"></add-item>
+    <item-edit
+      :editDialog.sync="editDialog"
+      :editItem.sync="editItem"
+      @currentChange="currentChange"
+      :curpage="paginations.currentPage"
+    ></item-edit>
   </div>
 </template>
 
 <script>
-import { getItemInfo ,delItem } from "../../api/item";
+import { getItemInfo, delItem } from "../../api/item";
 import { handleItemData } from "../../lib/handleData";
-import AddItem from './AddItem'
-import ItemEdit from './ItemEdit'
+import AddItem from "./AddItem";
+import ItemEdit from "./ItemEdit";
 export default {
   name: "Item",
   methods: {
     handleEdit(index, row) {
-      this.editDialog=true
+      this.editDialog = true;
+      this.editItem = {
+        id: row.id,
+        name: row.name,
+        info: row.info,
+        imgName: row.imgName,
+        audioName: row.audioName,
+        typeName: row.typeName,
+        typeId: row.typeId
+      };
     },
-    handleDelete(index,row) {
-      let id=row.id
-      delItem({id}).then((result) => {
-        if(result.data.status === 200){
-          this.$message.success('删除成功')
-          this.currentChange(this.paginations.currentPage)
-        }
+    handleDelete(index, row) {
+      this.$confirm("此操作将永久删除,是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
+        .then(() => {
+          let id = row.id;
+          delItem({ id }).then(result => {
+            if (result.data.status === 200) {
+              this.$message.success("删除成功");
+              this.currentChange(this.paginations.currentPage);
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     getAllItem() {
       getItemInfo({
@@ -97,26 +124,35 @@ export default {
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleItemData(result);
-        } 
+        }
       });
     }
   },
   data() {
     return {
       itemList: [],
+      editItem: {
+        id: null,
+        name: "",
+        info: "",
+        imgName: "",
+        audioName: "",
+        typeName: "",
+        typeId: null
+      },
       paginations: {
         currentPage: 1,
         pageSize: 8,
         total: 0
       },
-      addDialog:false,
-      editDialog:false
+      addDialog: false,
+      editDialog: false
     };
   },
   mounted() {
     this.getAllItem();
   },
-  components:{
+  components: {
     AddItem,
     ItemEdit
   }
@@ -139,7 +175,7 @@ export default {
 .pagination {
   text-align: center;
 }
-.add-btn{
+.add-btn {
   margin-bottom: 20px;
   float: right;
 }

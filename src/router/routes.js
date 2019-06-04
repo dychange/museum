@@ -7,6 +7,11 @@ export default [
         component: Home,
         children:[
           {
+            path:'/editself',
+            name:'EditSelf',
+            component:() => import('../views/EditSelf.vue')
+          },
+          {
             path:'/user',
             name:'User',
             component:() => import('../components/account/User.vue')

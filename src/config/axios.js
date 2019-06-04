@@ -54,11 +54,11 @@ class HttpRequest {
             }
             return res
         }, err => {
-            if(err.response.status === 500){
-                Message.error('服务器被程序员吃了ヾﾉ≧∀≦)o')
-                endLoading()
-            }else if(err.response.status === 404){
+           if(err.response.status === 404){
                 router.replace('/404')
+            }else{
+                endLoading()
+                Message.error('不好意思,出错了ヾ|≧_≦|〃')
             }
            return Promise.reject(err)
         })

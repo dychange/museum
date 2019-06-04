@@ -6,18 +6,18 @@
     :before-close="closeDialog"
     :close-on-click-modal="false"
   >
-    <el-form label-position="top" :rules="rules" status-icon :model="editInfo" ref="editInfo">
-       <el-form-item label="联系方式" prop="telephone">
-        <el-input type="text" v-model="editInfo.telephone" ></el-input>
+    <el-form label-position="top" :rules="rules" status-icon :model="editAdmin" ref="editAdmin">
+      <el-form-item label="联系方式" prop="telephone">
+        <el-input type="text" v-model="editAdmin.telephone" @focus="clear('telephone')"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="editInfo.password" ></el-input>
+        <el-input type="password" v-model="editAdmin.password" @focus="clear('password')"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkpass">
-        <el-input type="password" v-model="editInfo.checkpass" ></el-input>
+        <el-input type="password" v-model="editAdmin.checkpass" @focus="clear('checkpass')"></el-input>
       </el-form-item>
       <el-form-item label="账号类型">
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="editAdmin.memberAccountTypeId" filterable placeholder="请选择">
           <el-option
             v-for="item in types"
             :key="item.value"
@@ -28,7 +28,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="saveInfo('editInfo')">保存</el-button>
+      <el-button type="primary" @click="saveInfo('editAdmin')">保存</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </div>
   </el-dialog>
@@ -40,42 +40,50 @@ export default {
   name: "AdminEdit",
   methods: {
     saveInfo(formName) {
-      let Info = {
-        id: this.id,
-        memberAccountTypeId: this.value,
-        password: this.editInfo.password,
-        telephone:this.editInfo.telephone
-      };
-      if (Info.password === "" || Info.telephone === "" || Info.memberAccountTypeId === "") {
-        Info.password = null;
-        Info.telephone=null
-        Info.memberAccountTypeId=null
-      }
-      if (Info.memberAccountTypeId !== null || Info.password !== null || Info.telephone !== null) {
-        updateInfo(Info).then(result => {
-          if (result.data.status === 200) {
-            this.$message.success(result.data.msg);
-            this.$emit("update:editDialog", false);
-            this.$emit("currentChange",this.curpage);
-            this.$refs[formName].resetFields();
-            console.log(result);
+      this.$confirm("确认保存吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          let Info = this.editAdmin;
+          if (Info.password === "") {
+            Info.password = null;
           }
-        });
-      }else{
-        this.$message.error('至少修改一项')
-      }
+          this.$refs[formName].validate(valid => {
+            if (valid) {
+              updateInfo(Info).then(result => {
+                if (result.data.status === 200) {
+                  this.$message.success(result.data.msg);
+                  this.$emit("update:editDialog", false);
+                  this.$emit("currentChange", this.curpage);
+                  this.$refs[formName].resetFields();
+                  console.log(result);
+                }
+              });
+            } else {
+              this.$message.error("请填写正确信息");
+            }
+          });
+        })
+        .catch(() => {});
     },
     closeDialog() {
       this.$nextTick(() => {
-        this.$refs["editInfo"].resetFields();
-        this.value=''
+        this.$refs["editAdmin"].resetFields();
       });
       this.$emit("update:editDialog", false);
+      this.$emit("update:editAdmin", {});
     },
+    clear(prop) {
+      this.$refs["editAdmin"].clearValidate(prop);
+    }
   },
   data() {
-    const validatePass2 = (rule, val, callback) => {
-      if (val !== this.editInfo.password) {
+    const validatePass = (rule, val, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (val !== this.editAdmin.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -89,13 +97,13 @@ export default {
             message: "不能有空格",
             trigger: "blur"
           },
-           {
+          {
             max: 18,
             message: "最大只能18位密码",
             trigger: "blur"
           }
         ],
-        checkpass: [{ validator: validatePass2, trigger: "blur" }],
+        checkpass: [{ validator: validatePass, trigger: "blur" }],
         telephone: [
           {
             pattern: "^[^ ]+$",
@@ -103,18 +111,17 @@ export default {
             trigger: "blur"
           },
           {
-             pattern: "^[0-9]",
+            pattern: "^[0-9]",
             message: "只能由数字组成",
             trigger: "blur"
           },
-             {
+          {
             max: 11,
             message: "最大只能11位",
             trigger: "blur"
           }
-        ],
+        ]
       },
-      value: null,
       types: [
         {
           value: 1,
@@ -128,12 +135,7 @@ export default {
           value: 3,
           label: "客服"
         }
-      ],
-      editInfo: {
-        password: null,
-        checkpass: null,
-        telephone:null
-      }
+      ]
     };
   },
   props: {
@@ -141,11 +143,11 @@ export default {
       type: Boolean,
       default: false
     },
-    id: {
-      type: Number
+    editAdmin: {
+      type: Object
     },
-    curpage:{
-      type:Number
+    curpage: {
+      type: Number
     }
   }
 };

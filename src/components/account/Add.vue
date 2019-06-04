@@ -14,16 +14,16 @@
       ref="newAdminInfo"
     >
       <el-form-item label="帐号" prop="userName">
-        <el-input v-model="newAdminInfo.userName" class="Infoinput" @focus="clear"></el-input>
+        <el-input v-model="newAdminInfo.userName" class="Infoinput" @focus="clear('userName')"></el-input>
       </el-form-item>
       <el-form-item label="联系方式" prop="telephone">
-        <el-input type="text" v-model="newAdminInfo.telephone" ></el-input>
+        <el-input type="text" v-model="newAdminInfo.telephone" @focus="clear('telephone')"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="newAdminInfo.password" ></el-input>
+        <el-input type="password" v-model="newAdminInfo.password" @focus="clear('password')"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkpass">
-        <el-input type="password" v-model="newAdminInfo.checkpass" ></el-input>
+        <el-input type="password" v-model="newAdminInfo.checkpass" @focus="clear('checkpass')"></el-input>
       </el-form-item>
       <el-form-item label="账号类型" required>
         <el-select v-model="newAdminInfo.memberAccountTypeId" placeholder="请选择">
@@ -82,25 +82,25 @@ export default {
         }
       });
     },
-    clear(){
-      this.$refs["newAdminInfo"].clearValidate()
+    clear(prop){
+      this.$refs["newAdminInfo"].clearValidate(prop)
     }
   },
   data() {
-    const validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.newAdminInfo.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
+    const validatePass = (rule, value, callback) => {
+    if (value === "") {
+      callback(new Error("请再次输入密码"));
+    } else if (value !== this.newAdminInfo.password) {
+      callback(new Error("两次输入密码不一致!"));
+    } else {
+      callback();
+    }
+  };
     const checkUser = (rule, value, callback) => {
       let userName = value;
       checkName({ userName }).then(result => {
-        if (result.data.status === 400) {
-          callback(new Error());
+        if (result.data.status === 412) {
+          callback(new Error(result.data.msg));
         }
         console.log(result);
         callback();
@@ -124,6 +124,11 @@ export default {
           },
           {
             validator: checkUser,
+            trigger: "blur"
+          },
+          {
+            pattern: "^[^ ]+$",
+            message: "不能有空格",
             trigger: "blur"
           },
           {
@@ -177,7 +182,7 @@ export default {
             message: "请再次输入密码",
             trigger: "blur"
           },
-          { validator: validatePass2, trigger: "blur" }
+          { validator: validatePass, trigger: "blur" }
         ]
       },
       value: "",

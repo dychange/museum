@@ -76,6 +76,6 @@ export default {
 <style scoped>
 .el-aside {
   width: 230px !important;
-  background-color: #b3c0d1;
+  background-color: #ccc;
 }
 </style>

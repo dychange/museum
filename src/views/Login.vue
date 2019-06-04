@@ -3,36 +3,43 @@
     <el-header>上海博物馆后台管理系统</el-header>
     <el-container>
       <el-main>
-        <el-form status-icon class="login-ruleForm">
+        <el-form
+          status-icon
+          class="login-ruleForm"
+          :rules="rules"
+          :model="loginForm"
+          ref="loginForm"
+        >
           <div class="title">管理员登录</div>
-          <el-form-item class="inputuser">
+          <el-form-item class="inputuser" prop="username">
             <label class="usericon">
               <i class="el-icon-s-custom"></i>
             </label>
             <el-input
               class="info"
               type="text"
-              v-model="username"
+              v-model="loginForm.username"
               placeholder="请输入帐号"
               clearable
-              @keyup.enter.native="loginIn"
+              @keyup.enter.native="loginIn('loginForm')"
+              @focus="clear('username')"
             ></el-input>
           </el-form-item>
-          <el-form-item class="inputpassword">
+          <el-form-item class="inputpassword" prop="password">
             <label class="usericon">
               <i class="el-icon-lock"></i>
             </label>
             <el-input
               class="info"
               type="password"
-              v-model="password"
+              v-model="loginForm.password"
               placeholder="请输入密码"
               clearable
-              @keyup.enter.native="loginIn"
+              @keyup.enter.native="loginIn('loginForm')"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="loginIn">登录</el-button>
+            <el-button type="primary" @click="loginIn('loginForm')">登录</el-button>
           </el-form-item>
         </el-form>
       </el-main>
@@ -42,47 +49,62 @@
 
 <script>
 import { login } from "../api/user";
-import { saveUserInfo,getUserInfoMessage } from "../utils/localStorage";
+import { saveUserInfo, getUserInfoMessage } from "../utils/localStorage";
 import { competitionMixin } from "../utils/mixins";
 export default {
   name: "Login",
   mixins: [competitionMixin],
   data() {
     return {
-      username: "",
-      password: ""
+      loginForm: {
+        username: "",
+        password: ""
+      },
+      rules: {
+        username: [
+          {
+            pattern: "^[^ ]+$",
+            message: "不能有空格",
+            trigger: "blur"
+          },
+          { required: true, message: "用户名不能为空", trigger: "blur" },
+          {
+            pattern: "^[a-zA-Z0-9]",
+            message: "只能由英文,数字组成",
+            trigger: "blur"
+          }
+        ],
+      }
     };
   },
   methods: {
     //登录
-    loginIn() {
-      if (this.username === "" || this.password === "") {
-        this.$message.warning({
-          message: "用户名或密码不能为空",
-          duration: 1500
-        });
-      } else {
-        let username = this.username;
-        let password = this.password;
-        let userInfo = `username=${username}&password=${password}`;
-        login(userInfo)
-          .then(result => {
+    loginIn(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let username = this.loginForm.username;
+          let password = this.loginForm.password;
+          let userInfo = `username=${username}&password=${password}`;
+          login(userInfo).then(result => {
             console.log(result);
             let status = result.data.status;
             if (status === 200) {
-                this.setUserInfo(username);
+              this.setUserInfo(username);
               saveUserInfo("userInfo", result.data.info);
-              this.$message.success({
-                message: "登录成功",
-                duration: 1500
-              });
+              this.$message.success("登录成功");
               this.$router.push("/");
             }
-          })
-      }
+          });
+        } else {
+          this.$message.error("请填写正确信息");
+        }
+      });
+    },
+     clear(prop) {
+      this.$refs["loginForm"].clearValidate(prop);
     }
   },
-  mounted() {
+  created() {
     //加载页面时判断是否有用户缓存,如果有则表示已登录,再返回主页
     if (getUserInfoMessage("userInfo")) {
       this.$router.replace("/");
