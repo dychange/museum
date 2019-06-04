@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button class="add-btn" type="primary" @click="addDialog=true">新增展品</el-button>
+    <el-button class="add-btn" type="primary" @click="addDialog=true" >新增展品</el-button>
     <el-table :data="itemList" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -146,10 +146,10 @@ export default {
         total: 0
       },
       addDialog: false,
-      editDialog: false
+      editDialog: false,
     };
   },
-  mounted() {
+  created() {
     this.getAllItem();
   },
   components: {

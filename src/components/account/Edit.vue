@@ -80,10 +80,10 @@ export default {
     }
   },
   data() {
-    const validatePass = (rule, val, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (val !== this.editAdmin.password) {
+      } else if (value !== this.editAdmin.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -91,36 +91,37 @@ export default {
     };
     return {
       rules: {
+        telephone: [
+          {
+            required: true,
+            message: "联系方式不能为空",
+            trigger: "blur"
+          },
+          {
+            pattern:"^1(3|4|5|7|8)\\d{9}$",
+            message: "请填写正确电话号码",
+            trigger: "blur"
+          }
+        ],
         password: [
+          {
+            required: true,
+            message: "密码不能为空",
+            trigger: "blur"
+          },
           {
             pattern: "^[^ ]+$",
             message: "不能有空格",
             trigger: "blur"
           },
           {
+            min:6,
             max: 18,
-            message: "最大只能18位密码",
+            message: "请设置6-18位数的密码",
             trigger: "blur"
           }
         ],
         checkpass: [{ validator: validatePass, trigger: "blur" }],
-        telephone: [
-          {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
-            trigger: "blur"
-          },
-          {
-            pattern: "^[0-9]",
-            message: "只能由数字组成",
-            trigger: "blur"
-          },
-          {
-            max: 11,
-            message: "最大只能11位",
-            trigger: "blur"
-          }
-        ]
       },
       types: [
         {

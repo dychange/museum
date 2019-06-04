@@ -139,23 +139,13 @@ export default {
         ],
         telephone: [
           {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
-            trigger: "blur"
-          },
-          {
-            pattern: "^[0-9]",
-            message: "只能由数字组成",
-            trigger: "blur"
-          },
-          {
             required: true,
             message: "联系方式不能为空",
             trigger: "blur"
           },
           {
-            max: 11,
-            message: "最大只能11位",
+            pattern:"^1(3|4|5|7|8)\\d{9}$",
+            message: "请填写正确电话号码",
             trigger: "blur"
           }
         ],
@@ -171,8 +161,9 @@ export default {
             trigger: "blur"
           },
           {
+            min:6,
             max: 18,
-            message: "最大只能18位密码",
+            message: "请设置6-18位数的密码",
             trigger: "blur"
           }
         ],

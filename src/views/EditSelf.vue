@@ -8,82 +8,73 @@
       :rules="rules"
       ref="userInfo"
     >
-      <el-form-item label="名称" prop="nickname">
+      <el-form-item label="用户名" prop="userName">
+        <el-input v-model="userInfo.userName" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="昵称" prop="nickname">
         <el-input v-model="userInfo.nickname"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="userInfo.password"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码" prop="checkpass">
-        <el-input v-model="userInfo.checkpass"></el-input>
       </el-form-item>
       <el-form-item label="电话号码" prop="telephone">
         <el-input v-model="userInfo.telephone"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">保存修改</el-button>
+        <el-button type="primary" @click="submitForm('userInfo')">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import { getUserInfoMessage } from "../utils/localStorage";
+import { getUserInfoMessage , saveUserInfo} from "../utils/localStorage";
+import { editInfo } from "../api/user";
 export default {
   name: "EditSelf",
+  inject:['reload'],
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let userInfo = this.userInfo;
+          editInfo(userInfo).then(result => {
+            if (result.data.status === 200) {
+              let oldInfo=getUserInfoMessage('userInfo')
+              let newInfo=Object.assign(oldInfo,userInfo)
+              saveUserInfo('userInfo',newInfo)
+              this.$message.success('修改成功')
+              this.$refs[formName].resetFields();
+              this.reload()
+              this.$router.push("/");
+            }
+          });
         }
       });
     }
   },
   data() {
-    const validatePass = (rule, val, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (val !== this.userInfo.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       userInfo: {
+        id: null,
         nickname: "",
-        password: "",
-        checkpass: "",
-        telephone: ""
+        telephone: "",
+        userName: ""
       },
       rules: {
-        password: [
+        nickname: [
           {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
-            trigger: "blur"
-          },
-          {
-            max: 18,
-            message: "最大只能18位密码",
+            required: true,
+            message: "昵称不能为空",
             trigger: "blur"
           }
         ],
-        checkpass: [{ validator: validatePass, trigger: "blur" }],
         telephone: [
           {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
+            required: true,
+            message: "联系方式不能为空",
             trigger: "blur"
           },
           {
-            pattern: "^[0-9]",
-            message: "只能由数字组成",
-            trigger: "blur"
-          },
-          {
-            max: 11,
-            message: "最大只能11位",
+            pattern: "^1(3|4|5|7|8)\\d{9}$",
+            message: "请填写正确电话号码",
             trigger: "blur"
           }
         ]
@@ -93,6 +84,8 @@ export default {
   created() {
     this.userInfo.nickname = getUserInfoMessage("userInfo").nickname;
     this.userInfo.telephone = getUserInfoMessage("userInfo").telephone;
+    this.userInfo.userName = getUserInfoMessage("userInfo").userName;
+    this.userInfo.id = getUserInfoMessage("userInfo").id;
   }
 };
 </script>

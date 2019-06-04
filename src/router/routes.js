@@ -12,6 +12,11 @@ export default [
             component:() => import('../views/EditSelf.vue')
           },
           {
+            path:'/editpass',
+            name:'EditPass',
+            component:() => import('../views/EditPass.vue')
+          },
+          {
             path:'/user',
             name:'User',
             component:() => import('../components/account/User.vue')

@@ -8,6 +8,24 @@ const login= (data) =>{
     })
 }
 
+const editInfo=(data)=>{
+    return axios.request({
+        url:'/personInfo/updatePersonInfo',
+        method:'post',
+        data
+    })
+}
+
+const editpass=(data)=>{
+    return axios.request({
+        url:'/personInfo/updatePassword',
+        method:'post',
+        data
+    })
+}
+
 export {
-    login
+    login,
+    editInfo,
+    editpass
 }

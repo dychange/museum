@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-button class="add-btn" type="primary" @click="addDialog=true">新增展品类型</el-button>
+      <el-button class="add-btn" type="primary" @click="addDialog=true" >新增展品类型</el-button>
     </div>
     <el-table style="width: 100%" :data="itemTypeList">
       <el-table-column label="创建人ID" prop="operatorId" ></el-table-column>
@@ -65,10 +65,10 @@ export default {
         pageSize: 8,
         total: 0
       },
-      addDialog: false
+      addDialog: false,
     };
   },
-  mounted() {
+  created() {
     this.getAllItemTypeList();
   },
   components: {

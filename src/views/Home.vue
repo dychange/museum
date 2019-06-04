@@ -4,14 +4,16 @@
       <router-link tag="a" to="/">
         <img class="header-img" src="../assets/imgs/headericon.jpg">
       </router-link>
-      <span >上海天文博物馆后台管理系统</span>
+      <span>上海天文博物馆后台管理系统</span>
       <el-dropdown class="dropdown" @command="dropDownEvents">
+        <i class="el-icon-user"></i>
         <span class="el-dropdown-link">
           {{nickname}}
           <i class="el-icon-arrow-down"></i>
         </span>
-        <el-dropdown-menu slot="dropdown" >
-          <el-dropdown-item command="edit">修改</el-dropdown-item>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="edit">修改个人资料</el-dropdown-item>
+          <el-dropdown-item command="pass">修改密码</el-dropdown-item>
           <el-dropdown-item command="exit">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -27,18 +29,16 @@
 
 <script>
 import HomeMenu from "./Menu";
-import {
-  getUserInfoMessage,
-  saveUserInfo,
-  clearLocalStorage
-} from "../utils/localStorage";
-import { competitionMixin } from "../utils/mixins";
-import { mapGetters } from "vuex";
+import { getUserInfoMessage, clearLocalStorage } from "../utils/localStorage";
 export default {
   name: "home",
-  mixins: [competitionMixin],
   components: {
     HomeMenu
+  },
+  data() {
+    return {
+      nickname: ""
+    };
   },
   methods: {
     //退出登录
@@ -53,24 +53,19 @@ export default {
           this.$router.replace("/login");
           break;
         case "edit":
-          this.$router.push('/editself')
+          this.$router.push("/editself");
+          break;
+          case "pass":
+            this.$router.replace('/editpass')
       }
     }
   },
-  computed: {
-    ...mapGetters({
-      username: "nickname"
-    }),
-    //计算用户名,如果没有用户名则默认使用帐号当作用户名
-    nickname() {
-      let userInfo = getUserInfoMessage("userInfo");
-      let nickname = userInfo.nickname;
-      if (nickname === null) {
-        nickname = this.username;
-        userInfo.nickname = nickname;
-        saveUserInfo("userInfo", userInfo);
-      }
-      return nickname;
+  created() {
+    let userInfo = getUserInfoMessage("userInfo");
+    if (userInfo.nickname === null) {
+      this.nickname = userInfo.userName;
+    } else {
+      this.nickname = userInfo.nickname;
     }
   }
 };
@@ -78,7 +73,7 @@ export default {
 
 <style scoped>
 .el-container {
-  height: 670px;
+  height: 100%;
 }
 .el-header {
   line-height: 60px;
@@ -86,12 +81,9 @@ export default {
   background-color: #ccc;
 }
 
-.el-main {
-  background: url('../assets/imgs/header.jpg') no-repeat center center #ccc;
-}
 .dropdown {
   float: right;
-  font-size: 18px;
+  font-size: 16px;
   margin-right: 20px;
 }
 .el-dropdown-link {
