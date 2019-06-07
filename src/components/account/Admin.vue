@@ -54,7 +54,6 @@ export default {
         memberAccountTypeId: row.memberAccountId,
         telephone: row.telephone
       };
-      console.log(row);
       this.editDialog = true;
     },
     //删除对应的管理员信息

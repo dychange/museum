@@ -105,11 +105,6 @@ export default {
         ],
         password: [
           {
-            required: true,
-            message: "密码不能为空",
-            trigger: "blur"
-          },
-          {
             pattern: "^[^ ]+$",
             message: "不能有空格",
             trigger: "blur"

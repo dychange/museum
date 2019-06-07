@@ -5,25 +5,25 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="图片名称">
+            <el-form-item label="图片名称:">
               <span>{{ props.row.imgName }}</span>
             </el-form-item>
-            <el-form-item label="音频名称">
+            <el-form-item label="音频名称:">
               <span>{{ props.row.audioName }}</span>
             </el-form-item>
-            <el-form-item label="添加时间">
+            <el-form-item label="添加时间:">
               <span>{{ props.row.addTime }}</span>
             </el-form-item>
-            <el-form-item label="添加人id">
+            <el-form-item label="添加人id:">
               <span>{{ props.row.operatorId }}</span>
             </el-form-item>
-            <el-form-item label="展品查询次数">
+            <el-form-item label="展品查询次数:">
               <span>{{ props.row.queryTimes }}</span>
             </el-form-item>
-            <el-form-item label="展品二维码">
+            <el-form-item label="展品二维码:">
               <span>{{ props.row.qrCode }}</span>
             </el-form-item>
-            <el-form-item label="扫码结果">
+            <el-form-item label="扫码结果:">
               <span>{{ props.row.scanResult }}</span>
             </el-form-item>
           </el-form>

@@ -6,11 +6,13 @@
       </router-link>
       <span>上海天文博物馆后台管理系统</span>
       <el-dropdown class="dropdown" @command="dropDownEvents">
-        <i class="el-icon-user"></i>
-        <span class="el-dropdown-link">
-          {{nickname}}
-          <i class="el-icon-arrow-down"></i>
-        </span>
+        <div>
+          <i class="el-icon-user"></i>
+          <span class="el-dropdown-link">
+            {{nickname}}
+            <i class="el-icon-arrow-down"></i>
+          </span>
+        </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="edit">修改个人资料</el-dropdown-item>
           <el-dropdown-item command="pass">修改密码</el-dropdown-item>
@@ -55,8 +57,8 @@ export default {
         case "edit":
           this.$router.push("/editself");
           break;
-          case "pass":
-            this.$router.replace('/editpass')
+        case "pass":
+          this.$router.replace("/editpass");
       }
     }
   },
