@@ -10,7 +10,23 @@ const getLostList=(data)=>{
 
 const delLostInfo=(data)=>{
     return axios.request({
-        url:'',
+        url:'/lost/delete',
+        method:'post',
+        data
+    })
+}
+
+const addLostInfo=(data)=>{
+    return axios.request({
+        url:'/lost/insert',
+        method:'post',
+        data
+    })
+}
+
+const recevied=(data)=>{
+    return axios.request({
+        url:'/lost/updateStatus',
         method:'post',
         data
     })
@@ -18,5 +34,7 @@ const delLostInfo=(data)=>{
 
 export {
     getLostList,
-    delLostInfo
+    delLostInfo,
+    addLostInfo,
+    recevied
 }

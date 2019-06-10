@@ -11,7 +11,14 @@
         <el-input v-model="newItemInfo.name" @focus="clear('name')"></el-input>
       </el-form-item>
       <el-form-item label="展品文字说明" prop="info">
-        <el-input type="textarea" v-model="newItemInfo.info"></el-input>
+        <el-input
+          type="textarea"
+          v-model="newItemInfo.info"
+          maxlength="2000"
+          show-word-limit
+          :autosize="{minRows: 5,maxRows:5}"
+          resize="none"
+        ></el-input>
       </el-form-item>
       <el-form-item label="图片名称" prop="imgName">
         <el-input v-model="newItemInfo.imgName" @focus="clear('imgName')"></el-input>
@@ -73,8 +80,8 @@ export default {
         }
       });
     },
-    clear(prop){
-      this.$refs["newItemInfo"].clearValidate(prop)
+    clear(prop) {
+      this.$refs["newItemInfo"].clearValidate(prop);
     }
   },
   data() {
@@ -101,15 +108,15 @@ export default {
             trigger: "blur"
           }
         ],
-        imgName:[
+        imgName: [
           {
             required: true,
             message: "图片名称不能为空",
             trigger: "blur"
           }
         ],
-        audioName:[
-           {
+        audioName: [
+          {
             required: true,
             message: "音频名称不能为空",
             trigger: "blur"
@@ -135,4 +142,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

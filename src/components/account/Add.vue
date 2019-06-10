@@ -14,7 +14,7 @@
       ref="newAdminInfo"
     >
       <el-form-item label="帐号" prop="userName">
-        <el-input v-model="newAdminInfo.userName" class="Infoinput" @focus="clear('userName')"></el-input>
+        <el-input v-model="newAdminInfo.userName" @focus="clear('userName')"></el-input>
       </el-form-item>
       <el-form-item label="联系方式" prop="telephone">
         <el-input type="text" v-model="newAdminInfo.telephone" @focus="clear('telephone')"></el-input>
