@@ -10,8 +10,8 @@
       <el-table-column label="丢失时间" prop="lostTime" width="200" align="center"></el-table-column>
       <el-table-column label="编辑" fixed="right" width="200">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="handleReceived(scope.$index, scope.row)">已找回</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" type="primary" @click="handleReceived(scope.$index, scope.row)" v-if="scope.row.statusCode===0?true:false">已找回</el-button>
         </template>
       </el-table-column>
     </el-table>

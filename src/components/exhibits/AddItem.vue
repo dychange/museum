@@ -68,9 +68,7 @@ export default {
           addItem(ItemInfo).then(result => {
             if (result.data.status === 200) {
               this.$message.success("添加成功");
-              this.$refs["newItemInfo"].resetFields();
-              this.$emit("update:addDialog", false);
-              this.newItemInfo.typeId = null;
+              this.closeDialog()
               this.$emit("getAllItem");
             }
             console.log(result);

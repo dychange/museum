@@ -55,10 +55,8 @@ export default {
               updateInfo(Info).then(result => {
                 if (result.data.status === 200) {
                   this.$message.success(result.data.msg);
-                  this.$emit("update:editDialog", false);
                   this.$emit("currentChange", this.curpage);
-                  this.$refs[formName].resetFields();
-                  console.log(result);
+                  this.closeDialog()
                 }
               });
             } else {

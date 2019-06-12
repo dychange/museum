@@ -30,7 +30,7 @@ const handleUserData=(result)=>{
     return list
 }
 
-const handleItemData=(result)=>{
+const handleAddTime=(result)=>{
   let list =result.data.info.rows
   for (let i in list){
     let addTime=formatDate(list[i].addTime)
@@ -59,6 +59,6 @@ const handleLostData=(result)=>{
 export {
   handleAdminData,
   handleUserData,
-  handleItemData,
+  handleAddTime,
   handleLostData
 }

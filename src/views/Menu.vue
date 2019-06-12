@@ -6,11 +6,11 @@
               <i class="el-icon-user-solid"></i>账号管理
             </template>
             <el-menu-item-group>
-              <router-link tag='li' to="/user">
-              <el-menu-item index="1-1">用户</el-menu-item>
-              </router-link>
               <router-link tag="li" to="/admin">
-              <el-menu-item index="1-2">管理员</el-menu-item>
+              <el-menu-item index="1-1">管理员</el-menu-item>
+              </router-link>
+              <router-link tag='li' to="/user">
+              <el-menu-item index="1-2">用户</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>

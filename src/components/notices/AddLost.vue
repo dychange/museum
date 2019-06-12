@@ -67,8 +67,7 @@ export default {
           addLostInfo(lostInfo).then(result => {
             if (result.data.status === 200) {
               this.$message.success("发布成功");
-              this.$emit("update:addDialog", false);
-              this.$refs["newLostInfo"].resetFields();
+              this.closeDialog()
               this.$emit('getAllLost')
             }
           });

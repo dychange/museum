@@ -64,7 +64,7 @@
 
 <script>
 import { getItemInfo, delItem } from "../../api/item";
-import { handleItemData } from "../../lib/handleData";
+import { handleAddTime } from "../../lib/handleData";
 import AddItem from "./AddItem";
 import ItemEdit from "./ItemEdit";
 export default {
@@ -110,7 +110,7 @@ export default {
         rows: 8
       }).then(result => {
         if (result.data.status === 200) {
-          this.itemList = handleItemData(result);
+          this.itemList = handleAddTime(result);
           this.paginations.total = result.data.info.total;
         }
         console.log(result);
@@ -123,7 +123,7 @@ export default {
         rows: 8
       }).then(result => {
         if (result.data.status === 200) {
-          this.itemList = handleItemData(result);
+          this.itemList = handleAddTime(result);
         }
       });
     }

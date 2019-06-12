@@ -57,8 +57,7 @@ export default {
               updateItem(editItem).then(result => {
                 if (result.data.status === 200) {
                   this.$message.success(result.data.msg),
-                    this.$refs["editItem"].resetFields();
-                  this.$emit("update:editDialog", false);
+                  this.closeDialog()
                   this.$emit("currentChange", this.curpage);
                 }
               });

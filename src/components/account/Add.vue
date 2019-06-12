@@ -71,9 +71,7 @@ export default {
             if (result.data.status === 200) {
               this.$message.success("创建成功");
               this.$emit("getAllAdminList");
-              this.$refs[formName].resetFields();
-              this.newAdminInfo.memberAccountTypeId = "";
-              this.$emit("update:addDialog", false);
+              this.closeDialog()
             }
             console.log(result);
           });

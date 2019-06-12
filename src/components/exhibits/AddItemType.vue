@@ -55,8 +55,7 @@ export default {
           addItemType(ItemInfo).then(result => {
             if(result.data.status === 200){
               this.$message.success('添加成功')
-              this.$refs["newItemTypeInfo"].resetFields();
-              this.$emit("update:addDialog", false);
+              this.closeDialog()
               this.$emit('getAllItemTypeList')
             }
           });
