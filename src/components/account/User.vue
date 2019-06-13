@@ -1,14 +1,5 @@
 <template>
   <div>
-    <el-form :inline="true" class="demo-form-inline">
-      <el-form-item label="手机:">
-        <el-input v-model="searchphone" placeholder="输入要查询的手机号" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search">搜索</el-button>
-        <el-button type="primary" icon="el-icon-refresh-right">重置</el-button>
-      </el-form-item>
-    </el-form>
     <el-table style="width: 100%" :data="userList">
       <el-table-column label="头像" width="70" align="center">
         <template slot-scope="scope">
@@ -51,7 +42,6 @@ export default {
         currentPage: 1,
         pageSize: 8
       },
-      searchphone: "",
       userList: []
     };
   },

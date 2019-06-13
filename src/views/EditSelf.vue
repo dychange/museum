@@ -8,13 +8,13 @@
       :rules="rules"
       ref="userInfo"
     >
-      <el-form-item label="用户名" prop="userName">
+      <el-form-item label="用户名：" prop="userName">
         <el-input v-model="userInfo.userName" disabled></el-input>
       </el-form-item>
-      <el-form-item label="昵称" prop="nickname">
+      <el-form-item label="昵称：" prop="nickname">
         <el-input v-model="userInfo.nickname"></el-input>
       </el-form-item>
-      <el-form-item label="电话号码" prop="telephone">
+      <el-form-item label="电话号码：" prop="telephone">
         <el-input v-model="userInfo.telephone"></el-input>
       </el-form-item>
       <el-form-item>
@@ -90,7 +90,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .el-input {
   width: 300px;
 }
@@ -98,4 +98,8 @@ export default {
   width: 500px;
   margin: 100px auto;
 }
+.el-input.is-disabled .el-input__inner{
+  color: #000;
+}
 </style>
+
