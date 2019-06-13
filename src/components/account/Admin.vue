@@ -2,9 +2,10 @@
   <div>
     <el-button class="add-btn" type="primary" @click="addAdmin" >添加管理员</el-button>
     <el-table style="width: 100%" :data="adminList">
+      <el-table-column label="管理员ID" prop="id" width="100"></el-table-column>
       <el-table-column label="管理员帐号" prop="userName" width="150"></el-table-column>
       <el-table-column label="昵称" prop="nickname" width="150"></el-table-column>
-      <el-table-column label="联系方式" prop="telephone" width="200"></el-table-column>
+      <el-table-column label="联系方式" prop="telephone" width="150"></el-table-column>
       <el-table-column label="账号类型" prop="memberAccountTypeId" width="150"></el-table-column>
       <el-table-column label="开户日期" prop="openDate" width="200"></el-table-column>
       <el-table-column label="最后登录时间" prop="lastLoginDate" width="200"></el-table-column>

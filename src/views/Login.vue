@@ -86,7 +86,6 @@ export default {
           let password = this.loginForm.password;
           let userInfo = `username=${username}&password=${password}`;
           login(userInfo).then(result => {
-            console.log(result);
             let status = result.data.status;
             if (status === 200) {
               this.setUserInfo(username);

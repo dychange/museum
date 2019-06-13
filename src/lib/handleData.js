@@ -41,17 +41,9 @@ const handleAddTime=(result)=>{
 
 const handleLostData=(result)=>{
       let list=result.data.info.rows
-      for(let j in list){
-        Object.assign(list[j],{statusCode:list[j].status})
-      }
       for(let i in list){
         let lostTime=formatDate(list[i].lostTime)
         list[i].lostTime=lostTime
-        if(list[i].status===0){
-          list[i].status="未领取"
-        }else if(list[i].status===1){
-          list[i].status='已领取'
-        }
       }
       return list
 }

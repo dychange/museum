@@ -3,15 +3,26 @@
     <el-button class="add-btn" type="primary" @click="addLost">发布</el-button>
     <el-table :data="lostList" style="width: 100%">
       <el-table-column label="物品名称" prop="articleName" width="150"></el-table-column>
-      <el-table-column label="说明" prop="remark" width="250" show-overflow-tooltip></el-table-column>
-      <el-table-column label="是否领取" prop="status" width="150"></el-table-column>
-      <el-table-column label="丢失地点" prop="lostPlace" width="150"></el-table-column>
-      <el-table-column label="发布人ID" prop="operatorId" width="150"></el-table-column>
+      <el-table-column label="说明" prop="remark" width="200" show-overflow-tooltip></el-table-column>
+      <el-table-column label="丢失地点" prop="lostPlace" width="180"></el-table-column>
+      <el-table-column label="是否领取" prop="status" width="120">
+        <template slot-scope="types">
+          <el-tag type="danger" effect="dark" v-if="types.row.status===0?true:false">未领取</el-tag>
+          <el-tag type="success" effect="dark" v-else>已领取</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="发布人ID" prop="operatorId" width="120" align="center"></el-table-column>
+      <el-table-column label="领取人ID" prop="receiveUserId" width="120" align="center"></el-table-column>
       <el-table-column label="丢失时间" prop="lostTime" width="200" align="center"></el-table-column>
-      <el-table-column label="编辑" fixed="right" width="200">
+      <el-table-column label="编辑" fixed="right" width="170">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          <el-button size="mini" type="primary" @click="handleReceived(scope.$index, scope.row)" v-if="scope.row.statusCode===0?true:false">已找回</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleReceived(scope.$index, scope.row)"
+            v-if="scope.row.status===0?true:false"
+          >已找回</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -28,28 +39,31 @@
         </div>
       </el-col>
     </el-row>
-    <add-lost :addDialog.sync="addDialog" @getAllLost='getAllLost'></add-lost>
+    <add-lost :addDialog.sync="addDialog" @getAllLost="getAllLost"></add-lost>
   </div>
 </template>
 
 <script>
-import { getLostList, delLostInfo ,recevied} from "../../api/notices";
+import { getLostList, delLostInfo, recevied } from "../../api/notices";
 import { handleLostData } from "../../lib/handleData";
+import { getUserInfoMessage } from "../../utils/localStorage";
 import AddLost from "./AddLost";
 export default {
   name: "LostAndFound",
   methods: {
-    handleReceived(index,row){
-      console.log(row.id)
-       this.$confirm("丢失的物品确认找回了吗?", "提示", {
+    handleReceived(index, row) {
+      this.$confirm("丢失的物品确认找回了吗?", "提示", {
         cancelButtonText: "取消",
         confirmButtonText: "确定",
         type: "warning"
       })
         .then(() => {
-          let id = row.id;
-          let status=row.statusCode=1
-          recevied({ id,status }).then(result => {
+          let list =  {
+            id: row.id,
+            status: 1,
+            receiveUserId:this.receiveUserId
+          };
+          recevied(list).then(result => {
             if (result.data.status === 200) {
               this.$message.success("已确认"),
                 this.currentChange(this.paginations.currentPage);
@@ -115,6 +129,7 @@ export default {
   data() {
     return {
       lostList: [],
+      receiveUserId:null,
       paginations: {
         currentPage: 1,
         pageSize: 8,
@@ -124,7 +139,8 @@ export default {
     };
   },
   created() {
-    this.getAllLost()
+    this.getAllLost();
+    this.receiveUserId = getUserInfoMessage("userInfo").id;
   },
   components: {
     AddLost
