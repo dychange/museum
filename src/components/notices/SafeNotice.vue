@@ -111,7 +111,7 @@ export default {
     getAllNoticeList() {
       getNoticeInfo({
         page: 1,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.noticeList = handleAddTime(result);
@@ -123,7 +123,7 @@ export default {
       this.paginations.currentPage = val;
       getNoticeInfo({
         page: this.paginations.currentPage,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.noticeList = handleAddTime(result);
@@ -141,7 +141,7 @@ export default {
       paginations: {
         total: 0,
         currentPage: 1,
-        pageSize: 8
+        pageSize: 7
       }
     };
   },

@@ -36,7 +36,7 @@ export default {
       this.paginations.currentPage=val
       getItemTypeInfo({
         page: this.paginations.currentPage,
-        rows: 8
+        rows: 7
       }).then(result => {
         if(result.data.status === 200){
         this.itemTypeList = result.data.info.rows;
@@ -47,7 +47,7 @@ export default {
     getAllItemTypeList() {
       getItemTypeInfo({
         page: 1,
-        rows: 8
+        rows: 7
       }).then(result => {
         if(result.data.status === 200){
         this.itemTypeList = result.data.info.rows;
@@ -62,7 +62,7 @@ export default {
       itemTypeList: [],
       paginations: {
         currentPage: 1,
-        pageSize: 8,
+        pageSize: 7,
         total: 0
       },
       addDialog: false,
@@ -86,3 +86,4 @@ export default {
   text-align: center;
 }
 </style>
+

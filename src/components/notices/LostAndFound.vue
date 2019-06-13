@@ -102,7 +102,7 @@ export default {
     getAllLost() {
       getLostList({
         page: 1,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.lostList = handleLostData(result);
@@ -115,7 +115,7 @@ export default {
       this.paginations.currentPage = val;
       getLostList({
         page: this.paginations.currentPage,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.lostList = handleLostData(result);
@@ -132,7 +132,7 @@ export default {
       receiveUserId:null,
       paginations: {
         currentPage: 1,
-        pageSize: 8,
+        pageSize: 7,
         total: 0
       },
       addDialog: false

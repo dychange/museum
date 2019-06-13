@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <router-link tag="a" to="/">
-        <img class="header-img" src="../assets/imgs/headericon.jpg">
+        <img class="header-img" src="../assets/imgs/headericon.png">
       </router-link>
       <span>上海天文博物馆后台管理系统</span>
       <el-dropdown class="dropdown" @command="dropDownEvents">
@@ -78,15 +78,18 @@ export default {
   height: 100%;
 }
 .el-header {
-  line-height: 60px;
+  height: 50px !important;
+  line-height: 50px;
   font-size: 20px;
-  background-color: #ccc;
+  background-color:		#0EA3BB;
+  color: #fff;
 }
 
 .dropdown {
   float: right;
   font-size: 16px;
   margin-right: 20px;
+  color: #fff;
 }
 .el-dropdown-link {
   cursor: pointer;
@@ -97,6 +100,11 @@ export default {
   font-size: 14px;
 }
 .header-img {
+  width: 40px;
+  height: 40px;
   float: left;
+  border-radius: 60%;
+  margin-right: 10px;
+  margin-top: 5px;
 }
 </style>

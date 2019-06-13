@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>上海博物馆后台管理系统</el-header>
+    <el-header>上海天文博物馆后台管理系统</el-header>
     <el-container>
       <el-main>
         <el-form
@@ -120,12 +120,12 @@ export default {
   color: #fff;
   text-align: center;
   line-height: 60px;
+  font-size: 20px;
 }
 
 .el-main {
   height: 670px;
-  background: url(https://www.shanghaimuseum.net/museum/images/header-login.jpg)
-    no-repeat center top;
+  background: url(../assets/imgs/login.png) no-repeat center center;
   background-color: #000;
   color: #333;
   text-align: center;

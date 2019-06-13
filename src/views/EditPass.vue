@@ -99,4 +99,15 @@ export default {
 };
 </script>
 
-
+<style >
+.el-input {
+  width: 300px ;
+}
+.el-form {
+  width: 500px;
+  margin: 100px auto;
+}
+.el-form-item__label{
+  color: #fff;
+}
+</style>

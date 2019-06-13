@@ -88,7 +88,7 @@ export default {
     getAllAdminList() {
       getAdminInfo({
         page: 1,
-        rows: 8
+        rows: 7
       }).then(result => {
         // handleData将获取的数据进行一些转换
         if (result.data.status === 200) {
@@ -102,7 +102,7 @@ export default {
       this.paginations.currentPage = val;
       getAdminInfo({
         page: this.paginations.currentPage,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.adminList = handleAdminData(result);
@@ -126,7 +126,7 @@ export default {
       paginations: {
         total: 0,
         currentPage: 1,
-        pageSize: 8
+        pageSize: 7
       }
     };
   },
@@ -149,3 +149,5 @@ export default {
   text-align: center;
 }
 </style>
+
+

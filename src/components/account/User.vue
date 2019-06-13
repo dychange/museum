@@ -40,7 +40,7 @@ export default {
       paginations: {
         total: 0,
         currentPage: 1,
-        pageSize: 8
+        pageSize: 7
       },
       userList: []
     };
@@ -50,7 +50,7 @@ export default {
       this.paginations.currentPage = val;
       getUserInfo({
         page: this.paginations.currentPage,
-        rows: 8
+        rows: 7
       }).then(result => {
         if(result.data.status === 200){
         this.userList=handleUserData(result)
@@ -61,7 +61,7 @@ export default {
     getAllUserInfo() {
       getUserInfo({
         page: 1,
-        rows: 8
+        rows: 7
       })
         .then(result => {
           if(result.data.status === 200){

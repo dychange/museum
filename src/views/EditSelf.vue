@@ -92,7 +92,7 @@ export default {
 
 <style >
 .el-input {
-  width: 300px;
+  width: 300px ;
 }
 .el-form {
   width: 500px;
@@ -100,6 +100,9 @@ export default {
 }
 .el-input.is-disabled .el-input__inner{
   color: #000;
+}
+.el-form-item__label{
+  color: #fff;
 }
 </style>
 

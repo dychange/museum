@@ -107,7 +107,7 @@ export default {
     getAllItem() {
       getItemInfo({
         page: 1,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleAddTime(result);
@@ -120,7 +120,7 @@ export default {
       this.paginations.currentPage = val;
       getItemInfo({
         page: this.paginations.currentPage,
-        rows: 8
+        rows: 7
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleAddTime(result);
@@ -142,7 +142,7 @@ export default {
       },
       paginations: {
         currentPage: 1,
-        pageSize: 8,
+        pageSize: 7,
         total: 0
       },
       addDialog: false,
@@ -180,3 +180,4 @@ export default {
   float: right;
 }
 </style>
+

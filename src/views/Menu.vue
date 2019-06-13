@@ -1,7 +1,7 @@
 <template>
      <el-aside>
-        <el-menu>
-          <el-submenu index="1">
+        <el-menu >
+          <el-submenu index="1" >
             <template slot="title">
               <i class="el-icon-user-solid"></i>账号管理
             </template>
@@ -74,8 +74,29 @@ export default {
 </script>
 
 <style scoped>
-.el-aside {
-  width: 230px !important;
-  background-color: #ccc;
+*{
+  color: #fff !important;
 }
+.el-aside {
+  width: 200px !important;
+  background-color: #000;
+}
+.el-menu {
+  background-color: #000;
+  border: 0;
+}
+.el-menu-item-group{
+  background-color: #000;
+}
+
+</style>
+
+<style>
+.el-submenu__title{
+  color: #fff !important;
+}
+.el-submenu__title:focus, .el-submenu__title:hover , .el-menu-item:focus, .el-menu-item:hover{
+  background-color: #696969 !important;
+}
+
 </style>

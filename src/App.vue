@@ -32,9 +32,12 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('./assets/imgs/header.jpg') no-repeat center center #ccc;
+  background: url('./assets/imgs/main.png') no-repeat left center ;
   width: 100%;
   height: 100%;
+}
+.el-pagination__total{
+  color: 	#fff !important;
 }
 
 </style>
