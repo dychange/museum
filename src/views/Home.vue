@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <router-link tag="a" to="/">
-        <img class="header-img" src="../assets/imgs/headericon.png">
+        <img class="header-img" v-lazy='headerImg' :key='headerImg' >
       </router-link>
       <span>上海天文博物馆后台管理系统</span>
       <el-dropdown class="dropdown" @command="dropDownEvents">
@@ -22,7 +22,7 @@
     </el-header>
     <el-container>
       <home-menu></home-menu>
-      <el-main>
+      <el-main v-lazy:background-image='mainImg' :key='mainImg'>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -39,7 +39,9 @@ export default {
   },
   data() {
     return {
-      nickname: ""
+      nickname: "",
+      mainImg:require('../assets/imgs/main.png'),
+      headerImg:require('../assets/imgs/headericon.png')
     };
   },
   methods: {
@@ -69,7 +71,7 @@ export default {
     } else {
       this.nickname = userInfo.nickname;
     }
-  }
+  },
 };
 </script>
 
@@ -106,5 +108,10 @@ export default {
   border-radius: 60%;
   margin-right: 10px;
   margin-top: 5px;
+}
+.el-main{
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #f5f5f5;
 }
 </style>

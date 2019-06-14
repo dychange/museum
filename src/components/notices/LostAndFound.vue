@@ -149,9 +149,6 @@ export default {
 </script>
 
 <style scoped>
-.pagination {
-  text-align: center;
-}
 .demo-table-expand {
   font-size: 0;
 }
@@ -164,8 +161,5 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
-.add-btn {
-  float: right;
-  margin-bottom: 20px;
-}
+
 </style>

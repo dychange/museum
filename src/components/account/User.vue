@@ -3,7 +3,7 @@
     <el-table style="width: 100%" :data="userList">
       <el-table-column label="头像" width="70" align="center">
         <template slot-scope="scope">
-          <el-image :src="scope.row.headImg">
+          <el-image :src="scope.row.headImg" lazy>
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
             </div>
@@ -78,8 +78,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.pagination {
-  text-align: center;
-}
-</style>

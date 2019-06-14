@@ -77,13 +77,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.add-btn {
-  float: right;
-  margin-bottom: 20px;
-}
-.pagination {
-  text-align: center;
-}
-</style>
 

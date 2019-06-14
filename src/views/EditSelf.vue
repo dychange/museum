@@ -2,13 +2,14 @@
   <div class="container">
     <div>个人资料</div>
     <el-form
+    class="form"
       label-position="right"
       label-width="100px"
       :model="userInfo"
       :rules="rules"
       ref="userInfo"
     >
-      <el-form-item label="用户名：" prop="userName">
+      <el-form-item label="用户名：" prop="userName" >
         <el-input v-model="userInfo.userName" disabled></el-input>
       </el-form-item>
       <el-form-item label="昵称：" prop="nickname">
@@ -90,7 +91,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .el-input {
   width: 300px ;
 }
@@ -98,11 +99,9 @@ export default {
   width: 500px;
   margin: 100px auto;
 }
-.el-input.is-disabled .el-input__inner{
+.el-input.is-disabled >>> .el-input__inner{
   color: #000;
 }
-.el-form-item__label{
-  color: #fff;
-}
+
 </style>
 

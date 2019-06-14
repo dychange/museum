@@ -32,12 +32,20 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('./assets/imgs/main.png') no-repeat left center ;
   width: 100%;
   height: 100%;
 }
 .el-pagination__total{
-  color: 	#fff !important;
+  color: 	#000 !important;
 }
-
+.el-textarea .el-input__count {
+  bottom: -40px !important;
+}
+.pagination {
+  text-align: center;
+}
+.add-btn {
+  float: right;
+  margin-bottom: 20px !important;
+}
 </style>

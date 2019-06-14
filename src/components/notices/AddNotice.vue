@@ -144,15 +144,7 @@ export default {
 };
 </script>
 
-<style >
-.el-textarea .el-input__count {
-  color: #909399;
-  background: #fff;
-  position: absolute;
-  font-size: 12px;
-  bottom: -40px;
-  right: 10px;
-}
+<style scoped>
 .demo {
   margin-left: 100px;
 }

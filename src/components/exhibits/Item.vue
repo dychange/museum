@@ -172,12 +172,6 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
-.pagination {
-  text-align: center;
-}
-.add-btn {
-  margin-bottom: 20px;
-  float: right;
-}
+
 </style>
 
