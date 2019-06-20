@@ -1,5 +1,5 @@
 <template>
-    <div>404 Not Found</div>
+    <div class="notfound">404 Not Found</div>
 </template>
 
 <script>
@@ -9,5 +9,8 @@ export default {
 </script>
 
 <style scoped>
-
+.notfound{
+    font-size:40px;
+    margin:0 auto;
+}
 </style>

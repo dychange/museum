@@ -35,7 +35,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.el-pagination__total{
+.el-pagination__total , .header th{
   color: 	#000 !important;
 }
 .el-textarea .el-input__count {
@@ -47,5 +47,27 @@ export default {
 .add-btn {
   float: right;
   margin-bottom: 20px !important;
+}
+ .el-table thead{
+  font-weight: bolder !important;
+}
+.el-table td, .el-table th{
+  padding: 6px 0 !important;
+}
+.el-form--label-top .el-form-item__label{
+  padding: 0 !important;
+}
+.el-form-item{
+  margin-bottom: 15px !important;
+}
+.el-input__inner{
+  height: 36px !important;
+  line-height: 36px !important;
+}
+.el-dialog__body{
+  padding: 20px !important;
+}
+.header th{
+  background-color: 	#DCDCDC !important;
 }
 </style>

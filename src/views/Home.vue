@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <router-link tag="a" to="/">
-        <img class="header-img" v-lazy='headerImg' :key='headerImg' >
+        <img class="header-img" v-lazy="headerImg" :key="headerImg">
       </router-link>
       <span>上海天文博物馆后台管理系统</span>
       <el-dropdown class="dropdown" @command="dropDownEvents">
@@ -22,7 +22,7 @@
     </el-header>
     <el-container>
       <home-menu></home-menu>
-      <el-main v-lazy:background-image='mainImg' :key='mainImg'>
+      <el-main v-lazy:background-image="mainImg" :key="mainImg">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -40,8 +40,8 @@ export default {
   data() {
     return {
       nickname: "",
-      mainImg:require('../assets/imgs/main.png'),
-      headerImg:require('../assets/imgs/headericon.png')
+      mainImg: '',
+      headerImg: require("../assets/imgs/headericon.png")
     };
   },
   methods: {
@@ -64,6 +64,24 @@ export default {
       }
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (vm.$route.path === "/") {
+        vm.$data.mainImg = require("../assets/imgs/main.png");
+      }else{
+        vm.$data.mainImg = "";
+      }
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
+    if(to.path==='/'){
+      this.mainImg=require("../assets/imgs/main.png")
+      next()
+    }else{
+      this.mainImg=''
+      next()
+    }
+  },
   created() {
     let userInfo = getUserInfoMessage("userInfo");
     if (userInfo.nickname === null) {
@@ -71,7 +89,7 @@ export default {
     } else {
       this.nickname = userInfo.nickname;
     }
-  },
+  }
 };
 </script>
 
@@ -80,10 +98,10 @@ export default {
   height: 100%;
 }
 .el-header {
-  height: 50px !important;
-  line-height: 50px;
+  height: 70px !important;
+  line-height: 70px;
   font-size: 20px;
-  background-color:		#0EA3BB;
+  background-color: #000;
   color: #fff;
 }
 
@@ -102,14 +120,13 @@ export default {
   font-size: 14px;
 }
 .header-img {
-  width: 40px;
-  height: 40px;
   float: left;
   border-radius: 60%;
   margin-right: 10px;
-  margin-top: 5px;
+  margin-top: 10px;
+  margin-left: 2%;
 }
-.el-main{
+.el-main {
   background-repeat: no-repeat;
   background-position: center center;
   background-color: #f5f5f5;

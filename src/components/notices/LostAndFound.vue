@@ -1,19 +1,19 @@
 <template>
   <div>
     <el-button class="add-btn" type="primary" @click="addLost">发布</el-button>
-    <el-table :data="lostList" style="width: 100%">
-      <el-table-column label="物品名称" prop="articleName" width="150"></el-table-column>
-      <el-table-column label="说明" prop="remark" width="200" show-overflow-tooltip></el-table-column>
-      <el-table-column label="丢失地点" prop="lostPlace" width="180"></el-table-column>
-      <el-table-column label="是否领取" prop="status" width="120">
+    <el-table :data="lostList" style="width: 100%" header-row-class-name='header'>
+      <el-table-column label="物品名称" prop="articleName" min-width="13%"></el-table-column>
+      <el-table-column label="说明" prop="remark" min-width="20%" show-overflow-tooltip></el-table-column>
+      <el-table-column label="丢失地点" prop="lostPlace" min-width="18%" show-overflow-tooltip></el-table-column>
+      <el-table-column label="是否领取" prop="status" min-width="12%">
         <template slot-scope="types">
           <el-tag type="danger" effect="dark" v-if="types.row.status===0?true:false">未领取</el-tag>
           <el-tag type="success" effect="dark" v-else>已领取</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="发布人ID" prop="operatorId" width="120" align="center"></el-table-column>
-      <el-table-column label="领取人ID" prop="receiveUserId" width="120" align="center"></el-table-column>
-      <el-table-column label="丢失时间" prop="lostTime" width="200" align="center"></el-table-column>
+      <el-table-column label="发布人昵称" prop="memberInfo.nickname" min-width="12%" align="center"></el-table-column>
+      <el-table-column label="领取人电话" prop="receiveUserPhone" min-width="12%" align="center"></el-table-column>
+      <el-table-column label="丢失时间" prop="lostTime" min-width="20%" align="center"></el-table-column>
       <el-table-column label="编辑" fixed="right" width="170">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -52,16 +52,18 @@ export default {
   name: "LostAndFound",
   methods: {
     handleReceived(index, row) {
-      this.$confirm("丢失的物品确认找回了吗?", "提示", {
+      this.$prompt("请填写领取人手机号码", "提示", {
         cancelButtonText: "取消",
         confirmButtonText: "确定",
-        type: "warning"
+        closeOnClickModal: false,
+        inputPattern: /0?(13|14|15|18|17|19)[0-9]{9}/,
+        inputErrorMessage: "手机号码格式不正确"
       })
-        .then(() => {
-          let list =  {
+        .then(({ value }) => {
+          let list = {
             id: row.id,
             status: 1,
-            receiveUserId:this.receiveUserId
+            receiveUserPhone: value
           };
           recevied(list).then(result => {
             if (result.data.status === 200) {
@@ -102,7 +104,7 @@ export default {
     getAllLost() {
       getLostList({
         page: 1,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if (result.data.status === 200) {
           this.lostList = handleLostData(result);
@@ -115,7 +117,7 @@ export default {
       this.paginations.currentPage = val;
       getLostList({
         page: this.paginations.currentPage,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if (result.data.status === 200) {
           this.lostList = handleLostData(result);
@@ -129,10 +131,9 @@ export default {
   data() {
     return {
       lostList: [],
-      receiveUserId:null,
       paginations: {
         currentPage: 1,
-        pageSize: 7,
+        pageSize: 10,
         total: 0
       },
       addDialog: false
@@ -140,7 +141,6 @@ export default {
   },
   created() {
     this.getAllLost();
-    this.receiveUserId = getUserInfoMessage("userInfo").id;
   },
   components: {
     AddLost
@@ -161,5 +161,4 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
-
 </style>

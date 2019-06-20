@@ -5,6 +5,8 @@
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+     width="40%"
+    top='10vh'
   >
     <el-form label-position="top" :rules="rules" status-icon :model="editNotice" ref="editNotice">
       <el-form-item label="通告标题" prop="title">

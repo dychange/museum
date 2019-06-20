@@ -1,10 +1,11 @@
 <template>
   <el-dialog
-    title="新增展品信息"
+    title="新增展品类型"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+    width="40%"
   >
     <el-form
       label-position="top"

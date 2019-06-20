@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-table style="width: 100%" :data="userList">
-      <el-table-column label="头像" width="70" align="center">
+    <el-table style="width: 100%" :data="userList" header-row-class-name='header'>
+      <el-table-column label="头像" width="50" align="center">
         <template slot-scope="scope">
-          <el-image :src="scope.row.headImg" lazy>
+          <el-image :src="scope.row.headImg" lazy >
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
             </div>
@@ -40,7 +40,7 @@ export default {
       paginations: {
         total: 0,
         currentPage: 1,
-        pageSize: 7
+        pageSize: 10
       },
       userList: []
     };
@@ -50,7 +50,7 @@ export default {
       this.paginations.currentPage = val;
       getUserInfo({
         page: this.paginations.currentPage,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if(result.data.status === 200){
         this.userList=handleUserData(result)
@@ -61,7 +61,7 @@ export default {
     getAllUserInfo() {
       getUserInfo({
         page: 1,
-        rows: 7
+        rows: this.paginations.pageSize
       })
         .then(result => {
           if(result.data.status === 200){

@@ -8,9 +8,17 @@ const getAdminInfo=(data)=>{
     })
 }
 
-const deleteAdminInfo=(data)=>{
+const cancelAdminInfo=(data)=>{
     return axios.request({
-        url:'/memberInfo/delete',
+        url:'/memberInfo/updateStatus',
+        method:'post',
+        data
+    })
+}
+
+const openAdminInfo=(data)=>{
+    return axios.request({
+        url:'/memberInfo/updateStatus',
         method:'post',
         data
     })
@@ -42,7 +50,8 @@ const updateInfo=(data)=>{
 
 export {
     getAdminInfo,
-    deleteAdminInfo,
+    cancelAdminInfo,
+    openAdminInfo,
     addAdmin,
     checkName,
     updateInfo

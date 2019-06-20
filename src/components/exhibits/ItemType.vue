@@ -3,11 +3,11 @@
     <div>
       <el-button class="add-btn" type="primary" @click="addDialog=true" >新增展品类型</el-button>
     </div>
-    <el-table style="width: 100%" :data="itemTypeList">
-      <el-table-column label="创建人ID" prop="operatorId" ></el-table-column>
-      <el-table-column label="展品类型名称" prop="typeName" ></el-table-column>
-      <el-table-column label="备注信息" prop="remark" ></el-table-column>
-      <el-table-column label="添加日期" prop="addTime" ></el-table-column>
+    <el-table style="width: 100%" :data="itemTypeList" header-row-class-name='header'>
+      <el-table-column label="创建人昵称" prop="memberInfo.nickname" align="center"></el-table-column>
+      <el-table-column label="展品类型名称" prop="typeName" align="center"></el-table-column>
+      <el-table-column label="备注信息" prop="remark" align="center"></el-table-column>
+      <el-table-column label="添加日期" prop="addTime" align="center"></el-table-column>
     </el-table>
     <el-row>
       <el-col :span="24">
@@ -28,6 +28,7 @@
 
 <script>
 import { getItemTypeInfo } from "../../api/item";
+import {handleAddTime} from '../../lib/handleData'
 import AddItemType from "./AddItemType";
 export default {
   name: "ItemType",
@@ -36,10 +37,10 @@ export default {
       this.paginations.currentPage=val
       getItemTypeInfo({
         page: this.paginations.currentPage,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if(result.data.status === 200){
-        this.itemTypeList = result.data.info.rows;
+        this.itemTypeList = handleAddTime(result);
         }
         console.log(result);
       });
@@ -47,10 +48,10 @@ export default {
     getAllItemTypeList() {
       getItemTypeInfo({
         page: 1,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if(result.data.status === 200){
-        this.itemTypeList = result.data.info.rows;
+        this.itemTypeList = handleAddTime(result);
         this.paginations.total = result.data.info.total;
         }
         console.log(result);
@@ -62,7 +63,7 @@ export default {
       itemTypeList: [],
       paginations: {
         currentPage: 1,
-        pageSize: 7,
+        pageSize: 10,
         total: 0
       },
       addDialog: false,

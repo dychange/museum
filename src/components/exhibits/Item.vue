@@ -1,21 +1,30 @@
 <template>
   <div>
-    <el-button class="add-btn" type="primary" @click="addDialog=true" >新增展品</el-button>
-    <el-table :data="itemList" style="width: 100%">
+    <el-button class="add-btn" type="primary" @click="addDialog=true">新增展品</el-button>
+    <el-table :data="itemList" style="width: 100%" @expand-change="expandChange" header-row-class-name='header'>
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="图片名称:">
-              <span>{{ props.row.imgName }}</span>
+              <el-button type="text" @click="lookImg(props.$index,props.row)">查看图片</el-button>
             </el-form-item>
-            <el-form-item label="音频名称:">
-              <span>{{ props.row.audioName }}</span>
+            <el-form-item label="音频:">
+              <el-button
+                :icon="playing?'el-icon-video-pause':'el-icon-video-play'"
+                circle
+                @click="startOrPause"
+              ></el-button>
+              <audio
+                ref="audio"
+                :src="audioList[props.$index]"
+                @play="onPlay"
+                @pause="onPause"
+                preload="auto"
+                :key="audioList[props.$index]"
+              ></audio>
             </el-form-item>
             <el-form-item label="添加时间:">
               <span>{{ props.row.addTime }}</span>
-            </el-form-item>
-            <el-form-item label="添加人id:">
-              <span>{{ props.row.operatorId }}</span>
             </el-form-item>
             <el-form-item label="展品查询次数:">
               <span>{{ props.row.queryTimes }}</span>
@@ -29,9 +38,10 @@
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column label="展品类型" prop="typeName" width="300"></el-table-column>
-      <el-table-column label="展品名称" prop="name" width="300"></el-table-column>
-      <el-table-column label="展品文字说明" prop="info" show-overflow-tooltip width="400"></el-table-column>
+      <el-table-column label="展品类型" prop="typeName" min-width="20%"></el-table-column>
+      <el-table-column label="展品名称" prop="name" min-width="20%"></el-table-column>
+      <el-table-column label="展品文字说明" prop="info" show-overflow-tooltip min-width="25%"></el-table-column>
+      <el-table-column label="添加人昵称" prop="memberInfo.nickname" min-width="20%" align="center"></el-table-column>
       <el-table-column label="编辑" fixed="right" width="150">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -59,6 +69,7 @@
       @currentChange="currentChange"
       :curpage="paginations.currentPage"
     ></item-edit>
+    <item-img :imgDialog.sync="imgDialog" :Img="Img"></item-img>
   </div>
 </template>
 
@@ -67,6 +78,7 @@ import { getItemInfo, delItem } from "../../api/item";
 import { handleAddTime } from "../../lib/handleData";
 import AddItem from "./AddItem";
 import ItemEdit from "./ItemEdit";
+import ItemImg from "./ItemImg";
 export default {
   name: "Item",
   methods: {
@@ -86,6 +98,7 @@ export default {
       this.$confirm("此操作将永久删除,是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
+        closeOnClickModal: false,
         type: "warning"
       })
         .then(() => {
@@ -104,10 +117,14 @@ export default {
           });
         });
     },
+    lookImg(index, row) {
+      this.imgDialog = true;
+      this.Img = this.curImg[index];
+    },
     getAllItem() {
       getItemInfo({
         page: 1,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleAddTime(result);
@@ -120,12 +137,26 @@ export default {
       this.paginations.currentPage = val;
       getItemInfo({
         page: this.paginations.currentPage,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleAddTime(result);
         }
       });
+    },
+    startOrPause() {
+      this.playing ? this.$refs.audio.pause() : this.$refs.audio.play();
+    },
+    onPlay() {
+      this.playing = true;
+    },
+    onPause() {
+      this.playing = false;
+    },
+    expandChange(row, expandedRows) {
+      if (expandedRows.length > 1) {
+        expandedRows.shift();
+      }
     }
   },
   data() {
@@ -142,11 +173,23 @@ export default {
       },
       paginations: {
         currentPage: 1,
-        pageSize: 7,
+        pageSize: 10,
         total: 0
       },
       addDialog: false,
       editDialog: false,
+      imgDialog: false,
+      playing: false,
+      Img: "",
+      curImg: [
+        require("../../assets/imgs/1.jpg"),
+        require("../../assets/imgs/2.jpg"),
+        require("../../assets/imgs/3.jpg")
+      ],
+      audioList: [
+        require("../../assets/audio/1.天文望远镜的诞生.mp3"),
+        require("../../assets/audio/4.多波段天文学和太空望远镜.mp3")
+      ]
     };
   },
   created() {
@@ -154,7 +197,8 @@ export default {
   },
   components: {
     AddItem,
-    ItemEdit
+    ItemEdit,
+    ItemImg
   }
 };
 </script>
@@ -169,9 +213,21 @@ export default {
 }
 .demo-table-expand .el-form-item {
   margin-right: 0;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
   width: 50%;
+  padding-left: 12px;
 }
-
+.el-button.is-circle {
+  padding: 0;
+  border: 0;
+  position: absolute;
+  top: 6px;
+}
+.el-button >>> .el-icon-video-play {
+  font-size: 28px;
+}
+.el-button >>> .el-icon-video-pause {
+  font-size: 28px;
+}
 </style>
 

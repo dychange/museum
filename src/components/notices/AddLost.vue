@@ -1,10 +1,12 @@
 <template>
   <el-dialog
-    title="新增失物招领信息"
+    title="失物招领"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+    width="40%"
+    top='10vh'
   >
     <el-form label-position="top" status-icon :model="newLostInfo" :rules="rules" ref="newLostInfo">
       <el-form-item label="物品名称" prop="articleName">
@@ -34,7 +36,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="createLost('newLostInfo')">创建</el-button>
+      <el-button type="primary" @click="createLost('newLostInfo')">发布</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </div>
   </el-dialog>

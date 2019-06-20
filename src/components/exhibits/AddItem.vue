@@ -1,10 +1,12 @@
 <template>
   <el-dialog
-    title="新增展品信息"
+    title="新增展品"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+    top='4vh'
+    width="40%"
   >
     <el-form label-position="top" status-icon :model="newItemInfo" :rules="rules" ref="newItemInfo">
       <el-form-item label="展品名称" prop="name">

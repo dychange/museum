@@ -5,6 +5,8 @@
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+     width="40%"
+    top='10vh'
   >
     <el-form
       label-position="top"
@@ -50,7 +52,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="createNotice('newNoticeInfo')">创建</el-button>
+      <el-button type="primary" @click="createNotice('newNoticeInfo')">完成</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </div>
   </el-dialog>

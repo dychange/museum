@@ -5,6 +5,8 @@
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+    top='8vh'
+    width="40%"
   >
     <el-form label-position="top" :rules="rules" status-icon :model="editAdmin" ref="editAdmin">
       <el-form-item label="联系方式" prop="telephone">

@@ -1,17 +1,17 @@
 <template>
   <div>
     <el-button class="add-btn" type="primary" @click="addNotice">发布通告</el-button>
-    <el-table style="width: 100%" :data="noticeList">
-      <el-table-column label="通告类型" width="200">
+    <el-table style="width: 100%" :data="noticeList" header-row-class-name='header'>
+      <el-table-column label="通告类型" min-width="10%">
         <template slot-scope="types">
-        <el-tag type="danger" effect="dark" v-if="types.row.type===2?true:false">紧急通告</el-tag>
-        <el-tag  effect="dark" v-else>普通通告</el-tag>
+          <el-tag type="danger" effect="dark" v-if="types.row.type===2?true:false">紧急通告</el-tag>
+          <el-tag effect="dark" v-else>普通通告</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="通告标题" prop="title" width="200"></el-table-column>
-      <el-table-column label="通告说明" prop="content" width="300" show-overflow-tooltip></el-table-column>
-      <el-table-column label="发布时间" prop="addTime" width="200"></el-table-column>
-      <el-table-column label="是否发布" width="200">
+      <el-table-column label="通告标题" prop="title" min-width="20%" show-overflow-tooltip></el-table-column>
+      <el-table-column label="通告说明" prop="content" min-width="30%" show-overflow-tooltip></el-table-column>
+      <el-table-column label="发布时间" prop="addTime" min-width="18%" align="center"></el-table-column>
+      <el-table-column label="是否发布" width="220" align="center">
         <template slot-scope="release">
           <el-switch
             v-model="release.row.status"
@@ -50,7 +50,7 @@
       :editDialog.sync="editDialog"
       :curpage="paginations.currentPage"
       :editNotice.sync="editNotice"
-      @currentChange='currentChange'
+      @currentChange="currentChange"
     ></edit-notice>
   </div>
 </template>
@@ -77,16 +77,17 @@ export default {
       this.$confirm("此操作将永久删除,是否继续?", "提示", {
         cancelButtonText: "取消",
         confirmButtonText: "确定",
+        closeOnClickModal: false,
         type: "warning"
       })
         .then(() => {
-          let id=row.id
-          delNoticeInfo({id}).then((result) => {
-            if(result.data.status===200){
-              this.$message.success(result.data.msg)
-              this.currentChange(this.paginations.currentPage)
+          let id = row.id;
+          delNoticeInfo({ id }).then(result => {
+            if (result.data.status === 200) {
+              this.$message.success(result.data.msg);
+              this.currentChange(this.paginations.currentPage);
             }
-          })
+          });
         })
         .catch(() => {
           this.$message({
@@ -95,14 +96,14 @@ export default {
           });
         });
     },
-    openNotice(val,row) {
-      let status=val
-      let id=row.id
-      Release({id,status}).then((result) => {
-        if(result.data.status===200){
-          this.$message.success(result.data.msg)
+    openNotice(val, row) {
+      let status = val;
+      let id = row.id;
+      Release({ id, status }).then(result => {
+        if (result.data.status === 200) {
+          this.$message.success(result.data.msg);
         }
-      })
+      });
     },
     addNotice() {
       this.addDialog = true;
@@ -111,10 +112,11 @@ export default {
     getAllNoticeList() {
       getNoticeInfo({
         page: 1,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if (result.data.status === 200) {
           this.noticeList = handleAddTime(result);
+          this.paginations.total=result.data.info.total
           console.log(result);
         }
       });
@@ -123,7 +125,7 @@ export default {
       this.paginations.currentPage = val;
       getNoticeInfo({
         page: this.paginations.currentPage,
-        rows: 7
+        rows: this.paginations.pageSize
       }).then(result => {
         if (result.data.status === 200) {
           this.noticeList = handleAddTime(result);
@@ -141,7 +143,7 @@ export default {
       paginations: {
         total: 0,
         currentPage: 1,
-        pageSize: 7
+        pageSize: 10
       }
     };
   },

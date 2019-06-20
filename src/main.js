@@ -10,7 +10,6 @@ import VueLazyLoad from 'vue-lazyload'
 
 Vue.use(elementUi)
 Vue.use(VueLazyLoad,{
-  error:require('./assets/imgs/error.png'),
   attempt:1
 })
 Vue.prototype.$axios=axios

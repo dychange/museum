@@ -5,6 +5,8 @@
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+    top='4vh'
+    width="40%"
   >
     <el-form label-position="top" status-icon :model="editItem" :rules="rules" ref="editItem">
       <el-form-item label="展品名称" prop="name">
@@ -134,7 +136,7 @@ export default {
       type: Number
     }
   },
-  created() {
+  mounted() {
     getTypeName().then(result => {
       if (result.data.status === 200) {
         let info = result.data.info;

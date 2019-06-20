@@ -1,10 +1,12 @@
 <template>
   <el-dialog
-    title="新增管理员信息"
+    title="新增管理员"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
+    top='8vh'
+    width="40%"
   >
     <el-form
       label-position="top"

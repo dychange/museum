@@ -6,9 +6,10 @@ module.exports={
     outputDir: 'dist',
     productionSourceMap:false,
     devServer: {
+        port:'4567',
         proxy: {
             '/api': {
-                target: 'http://129.211.70.43:8080', 
+                target: 'http://192.168.0.110:4567', 
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
