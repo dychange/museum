@@ -25,7 +25,7 @@ class HttpRequest {
         //  请求拦截
         instance.interceptors.request.use(config => {
             //  如果队列中没有请求则开始加载动画
-            console.log('请求拦截：',config)
+            // console.log('请求拦截：',config)
             if(!config.url.endsWith('/verification')){
                 startLoading()
             }
@@ -48,7 +48,7 @@ class HttpRequest {
                 router.replace('/login')
             }else if( status === 403){
                 Message.error(msg)
-                router.replace('/')
+                router.replace('/index')
             }else if( status === 400){
                 Message.error(msg)
             }

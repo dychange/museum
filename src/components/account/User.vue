@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="moduleTitle">
+      <i class="iconfont">&#xe621;</i>
+      用户</div>
     <el-table style="width: 100%" :data="userList" header-row-class-name='header'>
       <el-table-column label="头像" width="50" align="center">
         <template slot-scope="scope">

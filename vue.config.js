@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/dist' : '/'
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/museum/dist/' : '/'
 
 module.exports={
     publicPath: BASE_URL,
@@ -6,10 +6,9 @@ module.exports={
     outputDir: 'dist',
     productionSourceMap:false,
     devServer: {
-        port:'4567',
         proxy: {
             '/api': {
-                target: 'http://192.168.0.110:4567', 
+                target: 'http://192.168.0.114:8080/museum', 
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {

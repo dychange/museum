@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-button class="add-btn" type="primary" @click="addDialog=true">新增展品</el-button>
+    <div class="moduleTitle">
+      <i class="iconfont">&#xe6b6;</i>
+      展品管理</div>
+    <el-button class="add-btn" type="primary" @click="addDialog=true" size="small ">新增展品</el-button>
     <el-table :data="itemList" style="width: 100%" @expand-change="expandChange" header-row-class-name='header'>
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -16,11 +19,11 @@
               ></el-button>
               <audio
                 ref="audio"
-                :src="audioList[props.$index]"
+                :src="'http://ptljizme7.bkt.clouddn.com/'+props.row.audioName"
                 @play="onPlay"
                 @pause="onPause"
                 preload="auto"
-                :key="audioList[props.$index]"
+                :key="props.row.audioName"
               ></audio>
             </el-form-item>
             <el-form-item label="添加时间:">
@@ -42,7 +45,7 @@
       <el-table-column label="展品名称" prop="name" min-width="20%"></el-table-column>
       <el-table-column label="展品文字说明" prop="info" show-overflow-tooltip min-width="25%"></el-table-column>
       <el-table-column label="添加人昵称" prop="memberInfo.nickname" min-width="20%" align="center"></el-table-column>
-      <el-table-column label="编辑" fixed="right" width="150">
+      <el-table-column label="编辑" fixed="right" width="160">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -62,7 +65,7 @@
         </div>
       </el-col>
     </el-row>
-    <add-item :addDialog.sync="addDialog" @getAllItem="getAllItem"></add-item>
+    <add-item :addDialog.sync="addDialog" @getAllItem="getAllItem" ></add-item>
     <item-edit
       :editDialog.sync="editDialog"
       :editItem.sync="editItem"
@@ -91,7 +94,9 @@ export default {
         imgName: row.imgName,
         audioName: row.audioName,
         typeName: row.typeName,
-        typeId: row.typeId
+        typeId: row.typeId,
+        oldImg:'',
+        oldAudio:''
       };
     },
     handleDelete(index, row) {
@@ -119,7 +124,7 @@ export default {
     },
     lookImg(index, row) {
       this.imgDialog = true;
-      this.Img = this.curImg[index];
+      this.Img = 'http://ptljizme7.bkt.clouddn.com/'+ row.imgName;
     },
     getAllItem() {
       getItemInfo({
@@ -162,15 +167,7 @@ export default {
   data() {
     return {
       itemList: [],
-      editItem: {
-        id: null,
-        name: "",
-        info: "",
-        imgName: "",
-        audioName: "",
-        typeName: "",
-        typeId: null
-      },
+      editItem: {},
       paginations: {
         currentPage: 1,
         pageSize: 10,
@@ -181,15 +178,6 @@ export default {
       imgDialog: false,
       playing: false,
       Img: "",
-      curImg: [
-        require("../../assets/imgs/1.jpg"),
-        require("../../assets/imgs/2.jpg"),
-        require("../../assets/imgs/3.jpg")
-      ],
-      audioList: [
-        require("../../assets/audio/1.天文望远镜的诞生.mp3"),
-        require("../../assets/audio/4.多波段天文学和太空望远镜.mp3")
-      ]
     };
   },
   created() {

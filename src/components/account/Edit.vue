@@ -13,7 +13,7 @@
         <el-input type="text" v-model="editAdmin.telephone" @focus="clear('telephone')"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="editAdmin.password" @focus="clear('password')"></el-input>
+        <el-input type="password" v-model="editAdmin.password" @focus="clear('password')" placeholder="密码在6-18位之间"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkpass">
         <el-input type="password" v-model="editAdmin.checkpass" @focus="clear('checkpass')"></el-input>

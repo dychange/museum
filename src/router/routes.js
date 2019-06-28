@@ -1,10 +1,15 @@
 import Home from '../views/Home.vue'
 
 export default [
+  {
+    path:'/',
+    redirect:'/index'
+  },
     {
-        path: '/',
+        path: '/index',
         name: 'home',
         component: Home,
+        redirect:'/admininfo',
         children:[
           {
             path:'/editself',
@@ -60,6 +65,11 @@ export default [
             path:'/feedback',
             name:'FeedBack',
             component:() => import('../components/feedback/FeedBack.vue')
+          },
+          {
+            path:'/admininfo',
+            name:'AdminInfo',
+            component:() => import('../views/AdminInfo.vue'),
           }
         ]
       },

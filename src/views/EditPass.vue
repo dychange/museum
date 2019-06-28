@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div>修改密码</div>
+    <div class="moduleTitle">
+      <i class="el-icon-key"></i>
+      修改密码</div>
     <el-form
       label-position="right"
       label-width="100px"
@@ -9,16 +11,16 @@
       ref="userInfo"
     >
       <el-form-item label="旧密码" prop="oldPass">
-        <el-input type="password" v-model="userInfo.oldPass"></el-input>
+        <el-input type="password" v-model="userInfo.oldPass" @focus="clear('oldPass')"></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="password">
-        <el-input type="password" v-model="userInfo.password"></el-input>
+        <el-input type="password" v-model="userInfo.password" placeholder="密码在6-18位之间" @focus="clear('password')">></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkpass">
-        <el-input type="password" v-model="userInfo.checkpass"></el-input>
+        <el-input type="password" v-model="userInfo.checkpass" @focus="clear('checkpass')">></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('userInfo')">修改</el-button>
+        <el-button type="primary" @click="submitForm('userInfo')" size="small">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -44,6 +46,9 @@ export default {
           });
         }
       });
+    },
+     clear(prop){
+      this.$refs["userInfo"].clearValidate(prop)
     }
   },
   data() {
@@ -101,11 +106,15 @@ export default {
 
 <style scoped>
 .el-input {
-  width: 300px ;
+  width: 80% ;
 }
 .el-form {
-  width: 500px;
+  width: 38%;
+  height: 100%;
+  box-sizing: border-box;
+ padding-top: 2%;
   margin: 100px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 
 </style>

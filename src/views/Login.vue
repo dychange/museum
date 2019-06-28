@@ -50,10 +50,8 @@
 <script>
 import { login } from "../api/user";
 import { saveUserInfo, getUserInfoMessage } from "../utils/localStorage";
-import { competitionMixin } from "../utils/mixins";
 export default {
   name: "Login",
-  mixins: [competitionMixin],
   data() {
     return {
       loginForm: {
@@ -89,10 +87,9 @@ export default {
           login(userInfo).then(result => {
             let status = result.data.status;
             if (status === 200) {
-              this.setUserInfo(username);
               saveUserInfo("userInfo", result.data.info);
               this.$message.success("登录成功");
-              this.$router.push("/");
+              this.$router.push("/index");
             }
           });
         } else {
@@ -107,7 +104,7 @@ export default {
   created() {
     //加载页面时判断是否有用户缓存,如果有则表示已登录,再返回主页
     if (getUserInfoMessage("userInfo")) {
-      this.$router.replace("/");
+      this.$router.replace("/index");
     }
   }
 };

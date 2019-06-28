@@ -22,11 +22,36 @@
           resize="none"
         ></el-input>
       </el-form-item>
-      <el-form-item label="图片名称" prop="imgName">
-        <el-input v-model="editItem.imgName" @focus="clear('imgName')"></el-input>
+         <el-form-item label="图片上传" required>
+        <el-upload
+          ref="imgUp"
+          class="upload-demo"
+          :action="qiniuAction"
+          list-type="picture"
+          :data="imgtoken"
+          :on-error="errorImg"
+          :limit="1"
+          :before-upload="beforeUploadImg"
+          :file-list='imgList'
+        >
+          <el-button size="small" type="primary" @click="qiniuToken">选择图片</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件且只能上传一张</div>
+        </el-upload>
       </el-form-item>
-      <el-form-item label="音频名称" prop="audioName">
-        <el-input v-model="editItem.audioName" @focus="clear('audioName')"></el-input>
+         <el-form-item label="音频上传" required>
+        <el-upload
+          ref="audioUp"
+          class="upload-demo"
+          :action="qiniuAction"
+          :data="audiotoken"
+          :on-error="errorAudio"
+          :limit="1"
+          :before-upload="beforeUploadAudio"
+          :file-list="audioList"
+        >
+          <el-button size="small" type="primary" @click="qiniuToken">选择音频</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传mp3文件且只能上传一个</div>
+        </el-upload>
       </el-form-item>
       <el-form-item label="展品类型" required>
         <el-select v-model="editItem.typeId" filterable placeholder="请选择">
@@ -42,10 +67,35 @@
 </template>
 
 <script>
+import { getToken } from "../../api/qiniu";
 import { getTypeName, updateItem } from "../../api/item";
 export default {
   name: "ItemEdit",
   methods: {
+     errorImg(err, file, fileList) {
+    },
+    beforeUploadImg(file) {
+      let type = file.type.split("/")[0];
+      if (type !== "image") {
+        this.$message.error("只能上传图片");
+        return false;
+      } else {
+        this.editItem.oldImg=this.imgtoken.key
+        this.imgtoken.key = this.rename(file);
+      }
+    },
+    errorAudio(err, file, fileList) {
+    },
+    beforeUploadAudio(file) {
+      let type = file.type.split("/")[0];
+      if (type !== "audio") {
+        this.$message.error("只能上传音频");
+        return false;
+      } else {
+        this.editItem.oldAudio=this.audiotoken.key
+        this.audiotoken.key = this.rename(file);
+      }
+    },
     saveInfo(formName) {
       this.$confirm("确认保存吗?", "提示", {
         confirmButtonText: "确定",
@@ -54,7 +104,9 @@ export default {
       })
         .then(() => {
           this.$refs[formName].validate(valid => {
-            if (valid) {
+            if (valid && this.imgtoken.key !== "" && this.audiotoken.key !== "") {
+              this.editItem.imgName=this.imgtoken.key
+              this.editItem.audioName=this.audiotoken.key
               let editItem = this.editItem;
               updateItem(editItem).then(result => {
                 if (result.data.status === 200) {
@@ -75,14 +127,35 @@ export default {
         this.$refs["editItem"].resetFields();
       });
       this.$emit("update:editDialog", false);
-      this.$emit("update:editItem", {});
+      this.$refs.imgUp.clearFiles()
+      this.$refs.audioUp.clearFiles()
     },
     clear(prop) {
       this.$refs["editItem"].clearValidate(prop);
+    },
+    qiniuToken() {
+      if (this.imgtoken.token === "" && this.audiotoken.token === "") {
+        getToken().then(result => {
+          if (result.data.status === 200) {
+            this.imgtoken.token = this.audiotoken.token = result.data.info;
+          }
+        });
+      }
     }
   },
   data() {
     return {
+      qiniuAction: "http://upload.qiniup.com",
+      imgList:[], 
+      audioList:[], 
+      imgtoken: {
+        token: "",
+        key: ""
+      },
+      audiotoken: {
+        token: "",
+        key: ""
+      },
       rules: {
         name: [
           {
@@ -95,34 +168,20 @@ export default {
             message: "展品名称不能为空",
             trigger: "blur"
           }
-        ],
-        imgName: [
-          {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
-            trigger: "blur"
-          },
-          {
-            required: true,
-            message: "展品名称不能为空",
-            trigger: "blur"
-          }
-        ],
-        audioName: [
-          {
-            pattern: "^[^ ]+$",
-            message: "不能有空格",
-            trigger: "blur"
-          },
-          {
-            required: true,
-            message: "展品名称不能为空",
-            trigger: "blur"
-          }
-        ]
+        ],  
       },
       types: []
     };
+  },
+  watch: {
+    editItem(newVal,oldVal){
+      if(newVal!== oldVal ){
+        this.imgList=[{name:this.editItem.imgName,url:'http://ptljizme7.bkt.clouddn.com/'+this.editItem.imgName}]
+        this.audioList=[{name:this.editItem.audioName,url:'http://ptljizme7.bkt.clouddn.com/'+this.editItem.audioName}]
+        this.imgtoken.key=this.editItem.imgName
+        this.audiotoken.key=this.editItem.audioName
+      }
+    }
   },
   props: {
     editDialog: {

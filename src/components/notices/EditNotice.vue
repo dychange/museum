@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="通告更新"
+    title="公告更新"
     :visible.sync="editDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
@@ -9,16 +9,16 @@
     top='10vh'
   >
     <el-form label-position="top" :rules="rules" status-icon :model="editNotice" ref="editNotice">
-      <el-form-item label="通告标题" prop="title">
+      <el-form-item label="公告标题" prop="title">
         <el-input type="text" v-model="editNotice.title" @focus="clear('title')"></el-input>
       </el-form-item>
-      <el-form-item label="通告说明" prop="content">
+      <el-form-item label="公告说明" prop="content">
         <el-input type="textarea" v-model="editNotice.content" @focus="clear('content')" maxlength="1000"
           show-word-limit
           :autosize="{minRows: 5,maxRows:5}"
           resize="none"></el-input>
       </el-form-item>
-      <el-form-item label="通告类型">
+      <el-form-item label="公告类型">
         <el-select v-model="editNotice.type" filterable placeholder="请选择">
           <el-option
             v-for="item in types"
@@ -96,11 +96,11 @@ export default {
       types: [
         {
           value: 2,
-          label: "紧急通告"
+          label: "紧急公告"
         },
         {
           value: 1,
-          label: "普通通告"
+          label: "普通公告"
         },
        
       ]

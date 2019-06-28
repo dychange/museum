@@ -43,7 +43,7 @@
             </template>
             <el-menu-item-group>
               <router-link tag="li" to="/safenotice">
-              <el-menu-item index="4-1">安全通知</el-menu-item>
+              <el-menu-item index="4-1">通知</el-menu-item>
               </router-link>
               <router-link tag="li" to="/find">
               <el-menu-item index="4-2">寻找人员</el-menu-item>

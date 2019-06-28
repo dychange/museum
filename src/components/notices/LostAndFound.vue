@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-button class="add-btn" type="primary" @click="addLost">发布</el-button>
+    <div class="moduleTitle">
+      <i class="iconfont">&#xe630;</i>
+      失物招领</div>
+    <el-button class="add-btn" type="primary" @click="addLost" size="small ">发布</el-button>
     <el-table :data="lostList" style="width: 100%" header-row-class-name='header'>
       <el-table-column label="物品名称" prop="articleName" min-width="13%"></el-table-column>
       <el-table-column label="说明" prop="remark" min-width="20%" show-overflow-tooltip></el-table-column>
@@ -14,7 +17,7 @@
       <el-table-column label="发布人昵称" prop="memberInfo.nickname" min-width="12%" align="center"></el-table-column>
       <el-table-column label="领取人电话" prop="receiveUserPhone" min-width="12%" align="center"></el-table-column>
       <el-table-column label="丢失时间" prop="lostTime" min-width="20%" align="center"></el-table-column>
-      <el-table-column label="编辑" fixed="right" width="170">
+      <el-table-column label="编辑" fixed="right" width="180">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           <el-button

@@ -5,6 +5,7 @@
     :modal-append-to-body="false"
     :close-on-click-modal="false"
     top='5vh'
+    width="60%"
   >
   <el-image :src="Img" lazy >
                 <div slot="error" class="image-slot">
@@ -35,6 +36,8 @@ export default {
 
 <style scoped>
 .el-image{
+  padding-top: 2%;
   width: 100%;
 }
+
 </style>

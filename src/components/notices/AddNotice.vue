@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="新通告"
+    title="新公告"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
@@ -15,10 +15,10 @@
       :rules="rules"
       ref="newNoticeInfo"
     >
-      <el-form-item label="通告标题" prop="title">
+      <el-form-item label="公告标题" prop="title">
         <el-input v-model="newNoticeInfo.title" @focus="clear('title')"></el-input>
       </el-form-item>
-      <el-form-item label="通告说明" prop="content">
+      <el-form-item label="公告说明" prop="content">
         <el-input
           type="textarea"
           v-model="newNoticeInfo.content"
@@ -29,7 +29,7 @@
           @focus="clear('content')"
         ></el-input>
       </el-form-item>
-      <el-form-item label="通告类型/是否发布" required>
+      <el-form-item label="公告类型/是否发布" required>
         <el-select v-model="newNoticeInfo.type" placeholder="请选择">
           <el-option
             v-for="item in types"
@@ -134,11 +134,11 @@ export default {
       types: [
         {
           value: 2,
-          label: "紧急通告"
+          label: "紧急公告"
         },
         {
           value: 1,
-          label: "普通通告"
+          label: "普通公告"
         }
       ]
     };

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-button class="add-btn" type="primary" @click="addAdmin" >添加管理员</el-button>
+    <div class="moduleTitle">
+    <i class="el-icon-user-solid"></i>
+      管理员</div>
+    <el-button class="add-btn" type="primary" @click="addAdmin" size="small ">添加管理员</el-button>
     <el-table style="width: 100%" :data="adminList" header-row-class-name='header'>
       <el-table-column label="管理员ID" prop="id" min-width="8%" align="center"></el-table-column>
       <el-table-column label="管理员帐号" prop="userName" min-width="12%" align="center"></el-table-column>
@@ -10,7 +13,7 @@
       <el-table-column label="开户日期" prop="openDate" min-width="18%"></el-table-column>
       <el-table-column label="最后登录时间" prop="lastLoginDate" min-width="18%"></el-table-column>
       <el-table-column label="最后登录IP" prop="lastIp" min-width="15%"></el-table-column>
-      <el-table-column label="编辑" fixed="right" width="150">
+      <el-table-column label="编辑" fixed="right" width="160">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">修改</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.row)" v-if="scope.row.status==='on'">注销</el-button>

@@ -46,9 +46,43 @@ const handleLostData=(result)=>{
       return list
 }
 
+const createRandom=()=>{
+        let num = '';
+     for (let i = 0; i <= 16; i++)
+     {
+        var tmp = Math.ceil(Math.random()*15); 
+        if(tmp > 9){
+               switch(tmp){  
+                   case(10):
+                       num+='a';
+                       break; 
+                   case(11):
+                       num+='b';
+                       break;
+                   case(12):
+                       num+='c';
+                       break;
+                   case(13):
+                       num+='d';
+                       break;
+                   case(14):
+                       num+='e';
+                       break;
+                   case(15):
+                       num+='f';
+                       break;
+               } 
+            }else{
+               num+=tmp;
+            }
+   }
+  return num
+}
+
 export {
   handleAdminData,
   handleUserData,
   handleAddTime,
-  handleLostData
+  handleLostData,
+  createRandom
 }

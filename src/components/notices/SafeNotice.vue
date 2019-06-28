@@ -1,15 +1,18 @@
 <template>
   <div>
-    <el-button class="add-btn" type="primary" @click="addNotice">发布通告</el-button>
+    <div class="moduleTitle">
+      <i class="iconfont">&#xe683;</i>
+      公告管理</div>
+    <el-button class="add-btn" type="primary" @click="addNotice" size="small ">发布公告</el-button>
     <el-table style="width: 100%" :data="noticeList" header-row-class-name='header'>
-      <el-table-column label="通告类型" min-width="10%">
+      <el-table-column label="公告类型" min-width="10%">
         <template slot-scope="types">
-          <el-tag type="danger" effect="dark" v-if="types.row.type===2?true:false">紧急通告</el-tag>
-          <el-tag effect="dark" v-else>普通通告</el-tag>
+          <el-tag type="danger" effect="dark" v-if="types.row.type===2?true:false">紧急公告</el-tag>
+          <el-tag effect="dark" v-else>普通公告</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="通告标题" prop="title" min-width="20%" show-overflow-tooltip></el-table-column>
-      <el-table-column label="通告说明" prop="content" min-width="30%" show-overflow-tooltip></el-table-column>
+      <el-table-column label="公告标题" prop="title" min-width="20%" show-overflow-tooltip></el-table-column>
+      <el-table-column label="公告说明" prop="content" min-width="30%" show-overflow-tooltip></el-table-column>
       <el-table-column label="发布时间" prop="addTime" min-width="18%" align="center"></el-table-column>
       <el-table-column label="是否发布" width="220" align="center">
         <template slot-scope="release">
@@ -25,7 +28,7 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="编辑" fixed="right" width="150">
+      <el-table-column label="编辑" fixed="right" width="160">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>

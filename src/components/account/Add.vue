@@ -22,7 +22,7 @@
         <el-input type="text" v-model="newAdminInfo.telephone" @focus="clear('telephone')"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="newAdminInfo.password" @focus="clear('password')"></el-input>
+        <el-input type="password" v-model="newAdminInfo.password" @focus="clear('password')" placeholder="密码在6-18位之间"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkpass">
         <el-input type="password" v-model="newAdminInfo.checkpass" @focus="clear('checkpass')"></el-input>
@@ -102,7 +102,6 @@ export default {
         if (result.data.status === 412) {
           callback(new Error(result.data.msg));
         }
-        console.log(result);
         callback();
       });
     };

@@ -11,6 +11,5 @@ export default {
 <style scoped>
 .notfound{
     font-size:40px;
-    margin:0 auto;
 }
 </style>
