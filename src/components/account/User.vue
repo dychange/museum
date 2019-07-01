@@ -58,7 +58,6 @@ export default {
         if(result.data.status === 200){
         this.userList=handleUserData(result)
         }
-        console.log(result);
       });
     },
     getAllUserInfo() {
@@ -71,7 +70,6 @@ export default {
           this.userList=handleUserData(result)
           this.paginations.total = result.data.info.total;
           }
-          console.log(result);
         })
     }
   },

@@ -120,7 +120,6 @@ export default {
         if (result.data.status === 200) {
           this.noticeList = handleAddTime(result);
           this.paginations.total=result.data.info.total
-          console.log(result);
         }
       });
     },

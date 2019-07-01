@@ -138,8 +138,8 @@ export default {
   background-color: #f5f5f5;
   position: absolute;
   border-radius: 10px;
-  top: 180px;
-  right: 300px;
+  top: 27%;
+  right: 20%;
 }
 .title {
   height: 18px;

@@ -113,7 +113,6 @@ export default {
           this.lostList = handleLostData(result);
           this.paginations.total = result.data.info.total;
         }
-        console.log(result);
       });
     },
     currentChange(val) {

@@ -2,14 +2,27 @@
   <div>
     <div class="moduleTitle">
       <i class="iconfont">&#xe6b6;</i>
-      展品管理</div>
+      展品管理
+    </div>
     <el-button class="add-btn" type="primary" @click="addDialog=true" size="small ">新增展品</el-button>
-    <el-table :data="itemList" style="width: 100%" @expand-change="expandChange" header-row-class-name='header'>
+    <el-table
+      :data="itemList"
+      style="width: 100%"
+      @expand-change="expandChange"
+      header-row-class-name="header"
+    >
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="图片名称:">
-              <el-button type="text" @click="lookImg(props.$index,props.row)">查看图片</el-button>
+               <el-popover
+                placement="right"
+                width="300"
+                trigger="click"
+              >
+                <el-button type="text" slot="reference">查看图片</el-button>
+                <img :src="props.row.imgName" style="width:100%;height:100%;" >
+              </el-popover>
             </el-form-item>
             <el-form-item label="音频:">
               <el-button
@@ -19,7 +32,7 @@
               ></el-button>
               <audio
                 ref="audio"
-                :src="'http://ptljizme7.bkt.clouddn.com/'+props.row.audioName"
+                :src="props.row.audioName"
                 @play="onPlay"
                 @pause="onPause"
                 preload="auto"
@@ -33,7 +46,14 @@
               <span>{{ props.row.queryTimes }}</span>
             </el-form-item>
             <el-form-item label="展品二维码:">
-              <span>{{ props.row.qrCode }}</span>
+              <el-popover
+                placement="right"
+                width="100"
+                trigger="click"
+              >
+                <el-button type="text" slot="reference">查看图片</el-button>
+                <img :src="props.row.qrCode" style="width:100%;height:100%;" >
+              </el-popover>
             </el-form-item>
             <el-form-item label="扫码结果:">
               <span>{{ props.row.scanResult }}</span>
@@ -65,14 +85,13 @@
         </div>
       </el-col>
     </el-row>
-    <add-item :addDialog.sync="addDialog" @getAllItem="getAllItem" ></add-item>
+    <add-item :addDialog.sync="addDialog" @getAllItem="getAllItem"></add-item>
     <item-edit
       :editDialog.sync="editDialog"
       :editItem.sync="editItem"
       @currentChange="currentChange"
       :curpage="paginations.currentPage"
     ></item-edit>
-    <item-img :imgDialog.sync="imgDialog" :Img="Img"></item-img>
   </div>
 </template>
 
@@ -81,7 +100,6 @@ import { getItemInfo, delItem } from "../../api/item";
 import { handleAddTime } from "../../lib/handleData";
 import AddItem from "./AddItem";
 import ItemEdit from "./ItemEdit";
-import ItemImg from "./ItemImg";
 export default {
   name: "Item",
   methods: {
@@ -95,8 +113,8 @@ export default {
         audioName: row.audioName,
         typeName: row.typeName,
         typeId: row.typeId,
-        oldImg:'',
-        oldAudio:''
+        oldImg: "",
+        oldAudio: ""
       };
     },
     handleDelete(index, row) {
@@ -108,7 +126,8 @@ export default {
       })
         .then(() => {
           let id = row.id;
-          delItem({ id }).then(result => {
+          let imgName=row.imgName
+          delItem({ id,imgName }).then(result => {
             if (result.data.status === 200) {
               this.$message.success("删除成功");
               this.currentChange(this.paginations.currentPage);
@@ -122,10 +141,6 @@ export default {
           });
         });
     },
-    lookImg(index, row) {
-      this.imgDialog = true;
-      this.Img = 'http://ptljizme7.bkt.clouddn.com/'+ row.imgName;
-    },
     getAllItem() {
       getItemInfo({
         page: 1,
@@ -135,7 +150,6 @@ export default {
           this.itemList = handleAddTime(result);
           this.paginations.total = result.data.info.total;
         }
-        console.log(result);
       });
     },
     currentChange(val) {
@@ -175,9 +189,7 @@ export default {
       },
       addDialog: false,
       editDialog: false,
-      imgDialog: false,
       playing: false,
-      Img: "",
     };
   },
   created() {
@@ -186,7 +198,6 @@ export default {
   components: {
     AddItem,
     ItemEdit,
-    ItemImg
   }
 };
 </script>

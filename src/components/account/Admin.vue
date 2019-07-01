@@ -97,7 +97,6 @@ export default {
           this.adminList = handleAdminData(result);
           this.paginations.total = result.data.info.total;
         }
-        console.log(result);
       });
     },
     currentChange(val) {
@@ -109,7 +108,6 @@ export default {
         if (result.data.status === 200) {
           this.adminList = handleAdminData(result);
         }
-        console.log(result);
       });
     }
   },

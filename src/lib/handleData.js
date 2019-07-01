@@ -79,10 +79,19 @@ const createRandom=()=>{
   return num
 }
 
+const  rename =(file)=> {
+  return (
+    "museum/" +
+    createRandom() +
+    file.name.substring(file.name.lastIndexOf("."))
+  );
+}
+
 export {
   handleAdminData,
   handleUserData,
   handleAddTime,
   handleLostData,
-  createRandom
+  createRandom,
+  rename
 }

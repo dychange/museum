@@ -69,6 +69,8 @@
 <script>
 import { getToken } from "../../api/qiniu";
 import { getTypeName, updateItem } from "../../api/item";
+import {rename} from '../../lib/handleData'
+import { saveUserInfo, getUserInfoMessage} from '../../utils/localStorage'
 export default {
   name: "ItemEdit",
   methods: {
@@ -134,14 +136,24 @@ export default {
       this.$refs["editItem"].clearValidate(prop);
     },
     qiniuToken() {
-      if (this.imgtoken.token === "" && this.audiotoken.token === "") {
+      if (!getUserInfoMessage("qiniu")) {
         getToken().then(result => {
           if (result.data.status === 200) {
-            this.imgtoken.token = this.audiotoken.token = result.data.info;
+            saveUserInfo("qiniu", result.data.info);
+            this.imgtoken.token=this.audiotoken.token=result.data.info
           }
         });
+      } else {
+        this.imgtoken.token = this.audiotoken.token= getUserInfoMessage("qiniu");
       }
-    }
+    },
+    //  rename(file) {
+    //   return (
+    //     "museum/" +
+    //     createRandom() +
+    //     file.name.substring(file.name.lastIndexOf("."))
+    //   );
+    // },
   },
   data() {
     return {
@@ -176,10 +188,12 @@ export default {
   watch: {
     editItem(newVal,oldVal){
       if(newVal!== oldVal ){
-        this.imgList=[{name:this.editItem.imgName,url:'http://ptljizme7.bkt.clouddn.com/'+this.editItem.imgName}]
-        this.audioList=[{name:this.editItem.audioName,url:'http://ptljizme7.bkt.clouddn.com/'+this.editItem.audioName}]
-        this.imgtoken.key=this.editItem.imgName
-        this.audiotoken.key=this.editItem.audioName
+        let imgname=this.editItem.imgName
+        let audioname=this.editItem.audioName
+        this.imgList=[{name:imgname.substring(imgname.indexOf('/museum')),url:imgname}]
+        this.audioList=[{name:audioname.substring(audioname.indexOf('/museum')),url:audioname}]
+        this.imgtoken.key=imgname
+        this.audiotoken.key=audioname
       }
     }
   },

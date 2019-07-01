@@ -75,7 +75,6 @@ export default {
               this.$emit("getAllAdminList");
               this.closeDialog()
             }
-            console.log(result);
           });
         } else {
           this.$message.error("请填写正确信息");

@@ -66,9 +66,9 @@
 
 <script>
 import { getTypeName, addItem } from "../../api/item";
-import { getUserInfoMessage } from "../../utils/localStorage";
+import { getUserInfoMessage, saveUserInfo } from "../../utils/localStorage";
 import { getToken } from "../../api/qiniu";
-import { createRandom } from "../../lib/handleData";
+import { rename } from "../../lib/handleData";
 export default {
   name: "AddItem",
   props: {
@@ -114,47 +114,57 @@ export default {
     // 创建新的商品
     createItem(formName) {
       // 表单提交验证
-      this.$refs[formName].validate(valid => {
-        if (
-          valid &&
-          this.newItemInfo.typeId !== null &&
-          this.imgtoken.key !== "" &&
-          this.audiotoken.key !== ""
-        ) {
-          this.newItemInfo.imgName = this.imgtoken.key;
-          this.newItemInfo.audioName = this.audiotoken.key;
-          this.newItemInfo.operatorId = getUserInfoMessage("userInfo").id;
-          let ItemInfo = this.newItemInfo;
-          addItem(ItemInfo).then(result => {
-            if (result.data.status === 200) {
-              this.$message.success("添加成功");
-              this.closeDialog();
-              this.$emit("getAllItem");
+      this.$confirm("系统会自动生成该展品二维码,是否确定新增展品?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$refs[formName].validate(valid => {
+            if (
+              valid &&
+              this.newItemInfo.typeId !== null &&
+              this.imgtoken.key !== "" &&
+              this.audiotoken.key !== ""
+            ) {
+              this.newItemInfo.imgName = this.imgtoken.key;
+              this.newItemInfo.audioName = this.audiotoken.key;
+              this.newItemInfo.operatorId = getUserInfoMessage("userInfo").id;
+              let ItemInfo = this.newItemInfo;
+              addItem(ItemInfo).then(result => {
+                if (result.data.status === 200) {
+                  this.$message.success("添加成功");
+                  this.closeDialog();
+                  this.$emit("getAllItem");
+                }
+              });
+            } else {
+              this.$message.error("请填写完整信息");
             }
-            console.log(result);
           });
-        } else {
-          this.$message.error("请填写完整信息");
-        }
-      });
+        })
+        .catch(() => {});
     },
     clear(prop) {
       this.$refs["newItemInfo"].clearValidate(prop);
     },
-    rename(file) {
-      return (
-        "museum/" +
-        createRandom() +
-        file.name.substring(file.name.lastIndexOf("."))
-      );
-    },
+    // rename(file) {
+    //   return (
+    //     "museum/" +
+    //     createRandom() +
+    //     file.name.substring(file.name.lastIndexOf("."))
+    //   );
+    // },
     qiniuToken() {
-      if (this.imgtoken.token === "" && this.audiotoken.token === "") {
+      if (!getUserInfoMessage("qiniu")) {
         getToken().then(result => {
           if (result.data.status === 200) {
-            this.imgtoken.token = this.audiotoken.token = result.data.info;
+            saveUserInfo("qiniu", result.data.info);
+            this.imgtoken.token=this.audiotoken.token=result.data.info
           }
         });
+      } else {
+        this.imgtoken.token = this.audiotoken.token= getUserInfoMessage("qiniu");
       }
     }
   },
