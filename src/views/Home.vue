@@ -45,8 +45,8 @@ export default {
   data() {
     return {
       nickname: "",
-      headerIcon: require("../assets/imgs/title.png"),
-      headerImg:require('../assets/imgs/header.jpg')
+      headerIcon: 'http://ptljizme7.bkt.clouddn.com/important/title.jpg',
+      headerImg:'http://ptljizme7.bkt.clouddn.com/important/header.jpg'
     };
   },
   methods: {

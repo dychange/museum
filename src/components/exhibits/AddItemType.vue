@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="新增展品类型"
+    title="新增展区"
     :visible.sync="addDialog"
     :modal-append-to-body="false"
     :before-close="closeDialog"
@@ -14,7 +14,7 @@
       :rules="rules"
       ref="newItemTypeInfo"
     >
-      <el-form-item label="展品类型名称" prop="typeName">
+      <el-form-item label="展区名称" prop="typeName">
         <el-input v-model="newItemTypeInfo.typeName" @focus="clear('typeName')"></el-input>
       </el-form-item>
       <el-form-item label="备注信息" prop="remark">
@@ -86,7 +86,7 @@ export default {
       },
       rules: {
         typeName: [
-          { required: true, message: "展品类型不能为空", trigger: "blur" },
+          { required: true, message: "展区不能为空", trigger: "blur" },
           {
             pattern: "^[^ ]+$",
             message: "不能有空格",

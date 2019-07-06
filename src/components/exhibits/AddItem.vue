@@ -87,7 +87,7 @@ export default {
         this.$message.error("只能上传图片");
         return false;
       } else {
-        this.imgtoken.key = this.rename(file);
+        this.imgtoken.key = rename(file);
       }
     },
     errorAudio(err, file, fileList) {
@@ -99,7 +99,7 @@ export default {
         this.$message.error("只能上传音频");
         return false;
       } else {
-        this.audiotoken.key = this.rename(file);
+        this.audiotoken.key = rename(file);
       }
     },
     closeDialog() {

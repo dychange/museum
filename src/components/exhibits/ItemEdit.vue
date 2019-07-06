@@ -83,7 +83,7 @@ export default {
         return false;
       } else {
         this.editItem.oldImg=this.imgtoken.key
-        this.imgtoken.key = this.rename(file);
+        this.imgtoken.key = rename(file);
       }
     },
     errorAudio(err, file, fileList) {
@@ -95,7 +95,7 @@ export default {
         return false;
       } else {
         this.editItem.oldAudio=this.audiotoken.key
-        this.audiotoken.key = this.rename(file);
+        this.audiotoken.key = rename(file);
       }
     },
     saveInfo(formName) {

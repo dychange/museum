@@ -2,7 +2,7 @@
   <el-container>
     <el-header>上海天文博物馆后台管理系统</el-header>
     <el-container>
-      <el-main v-lazy:background-image='img' :key='img'>
+      <el-main >
         <el-form
           status-icon
           class="login-ruleForm"
@@ -58,7 +58,6 @@ export default {
         username: "",
         password: ""
       },
-      img:require('../assets/imgs/login.jpg'),
       rules: {
         username: [
           {
@@ -126,20 +125,24 @@ export default {
 
 .el-main {
   height: 100%;
+  background: url('http://ptljizme7.bkt.clouddn.com/important/login.jpg') no-repeat;
   background-size: 100% 100%;
-  background-repeat: no-repeat;
   color: #333;
   text-align: center;
 }
 
 .login-ruleForm {
-  width: 300px;
+  width: 350px;
+  height: 250px;
   padding: 25px;
   background-color: #f5f5f5;
   position: absolute;
   border-radius: 10px;
-  top: 27%;
-  right: 20%;
+  top: 50%;
+  left: 50%;
+  margin-left: -175px;
+  margin-top: -125px;
+  box-sizing: border-box;
 }
 .title {
   height: 18px;

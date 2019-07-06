@@ -46,6 +46,15 @@ const handleLostData=(result)=>{
       return list
 }
 
+const handleSelectData=(result)=>{
+  let list=result.data.info.rows
+      for(let i in list){
+        let selectTime=formatDate(list[i].selectTime)
+        list[i].selectTime=selectTime
+      }
+      return list
+}
+
 const createRandom=()=>{
         let num = '';
      for (let i = 0; i <= 16; i++)
@@ -81,7 +90,7 @@ const createRandom=()=>{
 
 const  rename =(file)=> {
   return (
-    "museum/" +
+    "museum/" + 
     createRandom() +
     file.name.substring(file.name.lastIndexOf("."))
   );
@@ -93,5 +102,6 @@ export {
   handleAddTime,
   handleLostData,
   createRandom,
-  rename
+  rename,
+  handleSelectData
 }

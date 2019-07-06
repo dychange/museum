@@ -2,10 +2,10 @@
   <div>
     <div class="moduleTitle">
       <i class="el-icon-menu"></i>
-      展品类型</div>
-      <el-button class="add-btn" type="primary" @click="addDialog=true" size="small ">新增展品类型</el-button>
+      展区</div>
+      <el-button class="add-btn" type="primary" @click="addDialog=true" size="small ">新增展区</el-button>
     <el-table style="width: 100%" :data="itemTypeList" header-row-class-name='header'>
-      <el-table-column label="创建人昵称" prop="memberInfo.nickname" align="center"></el-table-column>
+      <el-table-column label="创建人" prop="memberInfo.nickname" align="center"></el-table-column>
       <el-table-column label="展品类型名称" prop="typeName" align="center"></el-table-column>
       <el-table-column label="备注信息" prop="remark" align="center"></el-table-column>
       <el-table-column label="添加日期" prop="addTime" align="center"></el-table-column>

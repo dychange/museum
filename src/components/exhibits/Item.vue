@@ -64,10 +64,11 @@
       <el-table-column label="展品类型" prop="typeName" min-width="20%"></el-table-column>
       <el-table-column label="展品名称" prop="name" min-width="20%"></el-table-column>
       <el-table-column label="展品文字说明" prop="info" show-overflow-tooltip min-width="25%"></el-table-column>
-      <el-table-column label="添加人昵称" prop="memberInfo.nickname" min-width="20%" align="center"></el-table-column>
-      <el-table-column label="编辑" fixed="right" width="160">
+      <el-table-column label="添加人" prop="memberInfo.nickname" min-width="20%" align="center"></el-table-column>
+      <el-table-column label="编辑" fixed="right" width="250">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+           <el-button type="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -92,6 +93,7 @@
       @currentChange="currentChange"
       :curpage="paginations.currentPage"
     ></item-edit>
+    <preview :previewDialog.sync='previewDialog' :detailInfo='detailInfo'></preview>
   </div>
 </template>
 
@@ -100,9 +102,19 @@ import { getItemInfo, delItem } from "../../api/item";
 import { handleAddTime } from "../../lib/handleData";
 import AddItem from "./AddItem";
 import ItemEdit from "./ItemEdit";
+import Preview from './preview'
 export default {
   name: "Item",
   methods: {
+    handlePreview(index,row){
+      this.previewDialog=true
+      this.detailInfo={
+        Name:row.name,
+        Audio:row.audioName,
+        Content:row.info,
+        Img:row.imgName
+      }
+    },
     handleEdit(index, row) {
       this.editDialog = true;
       this.editItem = {
@@ -182,6 +194,7 @@ export default {
     return {
       itemList: [],
       editItem: {},
+      detailInfo:{},
       paginations: {
         currentPage: 1,
         pageSize: 10,
@@ -190,6 +203,7 @@ export default {
       addDialog: false,
       editDialog: false,
       playing: false,
+      previewDialog:false
     };
   },
   created() {
@@ -198,6 +212,7 @@ export default {
   components: {
     AddItem,
     ItemEdit,
+    Preview
   }
 };
 </script>

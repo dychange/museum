@@ -20,7 +20,7 @@
             </template>
             <el-menu-item-group>
               <router-link tag="li" to="/type">
-              <el-menu-item index="2-1">展品类型管理</el-menu-item>
+              <el-menu-item index="2-1">展区</el-menu-item>
               </router-link>
               <router-link tag="li" to="/item">
               <el-menu-item index="2-2">展品管理</el-menu-item>
@@ -60,6 +60,16 @@
             <el-menu-item-group>
               <router-link tag="li" to="/feedback">
               <el-menu-item index="5-1">游客反馈</el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="6">
+            <template slot="title">
+              <i class="el-icon-data-line"></i>数据统计
+            </template>
+            <el-menu-item-group>
+              <router-link tag="li" to="/datatotal">
+              <el-menu-item index="6-1">查看记录</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>

@@ -70,6 +70,11 @@ export default [
             path:'/admininfo',
             name:'AdminInfo',
             component:() => import('../views/AdminInfo.vue'),
+          },
+          {
+            path:'/datatotal',
+            name:'DataTotal',
+            component:()=> import ('../components/statistics/DataTotal.vue')
           }
         ]
       },

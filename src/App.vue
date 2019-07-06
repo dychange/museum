@@ -69,7 +69,7 @@ export default {
   padding: 0 !important;
 }
 .el-form-item {
-  margin-bottom: 15px !important;
+  margin-bottom: 16px !important;
 }
 .el-input__inner {
   height: 36px !important;
