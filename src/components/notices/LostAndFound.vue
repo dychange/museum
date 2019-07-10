@@ -75,12 +75,7 @@ export default {
             }
           });
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消"
-          });
-        });
+        .catch(() => {});
     },
     handleDelete(index, row) {
       this.$confirm("此操作将永久删除,是否继续?", "提示", {
@@ -97,12 +92,7 @@ export default {
             }
           });
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+        .catch(() => {});
     },
     getAllLost() {
       getLostList({

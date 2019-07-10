@@ -74,7 +74,6 @@ export default {
         if (result.data.status === 412 ) {
           callback(new Error(result.data.msg));
         }
-        console.log(result);
         callback();
       });
     };

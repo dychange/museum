@@ -8,6 +8,7 @@ const getDataList=(data)=>{
     })
 }
 
+
 export {
     getDataList
 }

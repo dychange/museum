@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>上海天文博物馆后台管理系统</el-header>
+    <el-header><img class="header-img" v-lazy="titleImg" :key="titleImg"></el-header>
     <el-container>
       <el-main >
         <el-form
@@ -72,7 +72,8 @@ export default {
             trigger: "blur"
           }
         ],
-      }
+      },
+      titleImg:'http://ptljizme7.bkt.clouddn.com/important/title.jpg'
     };
   },
   methods: {
@@ -111,22 +112,23 @@ export default {
 
 
 <style scoped>
+.el-header{
+  height: 90px !important;
+  line-height: 90px ;
+}
 .el-header,
 .el-footer {
-  background-color: #000;
-  color: #fff;
+  background-color: transparent;
   text-align: center;
-  line-height: 60px;
-  font-size: 20px;
 }
 .el-container{
+ background: url('http://ptljizme7.bkt.clouddn.com/important/bklogin.jpg') no-repeat;
+  background-size: 100% 100%;
   height: 100%;
 }
 
 .el-main {
   height: 100%;
-  background: url('http://ptljizme7.bkt.clouddn.com/important/login.jpg') no-repeat;
-  background-size: 100% 100%;
   color: #333;
   text-align: center;
 }
@@ -184,5 +186,9 @@ export default {
 .el-button {
   width: 275px;
   margin-left: -25px;
+}
+.header-img {
+  width: 30%;
+  height: 100%;
 }
 </style>

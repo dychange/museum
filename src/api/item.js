@@ -24,6 +24,22 @@ const checkItemTypeName=(data)=>{
     })
 }
 
+const delItemType=(data)=>{
+    return axios.request({
+        url:'/itemType/delete',
+        method:'post',
+        data
+    })
+}
+
+const editItemType=(data)=>{
+    return axios.request({
+        url:'itemType/update',
+        method:'post',
+        data
+    })
+}
+
 const getItemInfo=(data)=>{
     return axios.request({
         url:'/itemInfo/list',
@@ -63,13 +79,25 @@ const updateItem=(data)=>{
     })
 }
 
+
+const getItemName=(data)=>{
+    return axios.request({
+        url:'/itemInfo/list/name',
+        method:'post',
+        data
+    })
+} 
+
 export {
     getItemTypeInfo,
     addItemType,
     checkItemTypeName,
+    delItemType,
+    editItemType,
     getItemInfo,
     addItem,
     getTypeName,
     delItem,
-    updateItem
+    updateItem,
+    getItemName
 }

@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header v-lazy:background-image="headerImg" :key='headerImg'>
+    <el-header >
       <router-link to="/">
         <img class="header-img" v-lazy="headerIcon" :key="headerIcon">
       </router-link>
@@ -25,6 +25,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
+    <div class="Stripe"></div>
     <el-container>
       <home-menu></home-menu>
       <el-main>
@@ -88,10 +89,7 @@ export default {
   height: 90px !important;
   line-height: 90px;
   font-size: 20px;
-  background-color: #000;
-  color: #fff;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-color: #fff;
 }
 
 .el-main{
@@ -102,7 +100,7 @@ export default {
   float: right;
   font-size: 16px;
   margin-right: 20px;
-  color: #fff;
+  color: #000;
 }
 .el-dropdown-link {
   cursor: pointer;
@@ -113,9 +111,12 @@ export default {
   font-size: 14px;
 }
 .header-img {
-  width: 28%;
+  width: 25%;
   height: 100%;
   margin-left: 2%;
-
+}
+.Stripe{
+  height: 30px;
+  background-color: #CC6633;
 }
 </style>

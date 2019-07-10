@@ -56,6 +56,14 @@ export default {
   float: right;
   margin-bottom: 10px  !important;
 }
+.el-button--primary{
+  background-color: #CC6633 !important;
+  border-color: #CC6633 !important;
+}
+.el-button--primary:focus, .el-button--primary:hover{
+  background-color:	#EE7700 !important;
+  border-color:	#EE7700 !important;
+}
 .el-table thead {
   font-weight: bolder !important;
 }

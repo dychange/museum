@@ -18,11 +18,10 @@
           <img v-lazy="detailInfo.Img" />
         </div>
         <div class="detail-audio">
-          <div class="audio">音频介绍</div>
-          <audio :src="detailInfo.Audio" controls preload="auto"></audio>
+          <div class="audio">语音导览</div>
+          <audio ref='audio' :src="detailInfo.Audio" controls preload="auto"></audio>
         </div>
         <div class="detail-info">
-          <h1 class="text">文字介绍</h1>
           <div>{{detailInfo.Content}}</div>
         </div>
       </div>
@@ -54,6 +53,8 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("update:previewDialog", false);
+      this.$refs.audio.pause()
+      this.$refs.audio.currentTime=0
     }
   },
 };
@@ -99,8 +100,9 @@ export default {
   line-height: 25px;
   font-size: 14px;
   border-bottom: 1px solid #c0c4cc;
+  text-align: justify;
 }
-.text,
+
 .audio {
   text-align: center;
   margin-bottom: 18px;

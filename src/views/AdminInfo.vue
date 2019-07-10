@@ -11,6 +11,9 @@
       <div  class="type">账户类型：{{adminInfo.type}}</div>
     </el-card>
     </div>
+     <div class="decorate">
+      <el-image :src="Img" lazy ></el-image>
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ export default {
               phone:'无',
               type:''
           },
+          Img:'http://ptljizme7.bkt.clouddn.com/important/adminInfo.jpg'
       }
   },
   created() {
@@ -41,6 +45,7 @@ export default {
 
 <style scoped>
 .container {
+  position: relative;
   padding: 25px 20px;
   height: 100%;
   box-sizing: border-box;
@@ -63,5 +68,12 @@ export default {
 }
 .box-card >>> .el-card__body{
     padding: 10px 15px;
+}
+.decorate{
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  right: 8%;
+  bottom: 5%;
 }
 </style>

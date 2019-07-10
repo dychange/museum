@@ -29,7 +29,6 @@
           :action="qiniuAction"
           list-type="picture"
           :data="imgtoken"
-          :on-error="errorImg"
           :limit="1"
           :before-upload="beforeUploadImg"
         >
@@ -43,7 +42,6 @@
           class="upload-demo"
           :action="qiniuAction"
           :data="audiotoken"
-          :on-error="errorAudio"
           :limit="1"
           :before-upload="beforeUploadAudio"
         >
@@ -51,7 +49,7 @@
           <div slot="tip" class="el-upload__tip">只能上传mp3文件且只能上传一个</div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="展品类型" required>
+      <el-form-item label="选择展区" required>
         <el-select v-model="newItemInfo.typeId" filterable placeholder="请选择">
           <el-option v-for="item in types" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
         </el-select>
@@ -66,7 +64,7 @@
 
 <script>
 import { getTypeName, addItem } from "../../api/item";
-import { getUserInfoMessage, saveUserInfo } from "../../utils/localStorage";
+import { getUserInfoMessage } from "../../utils/localStorage";
 import { getToken } from "../../api/qiniu";
 import { rename } from "../../lib/handleData";
 export default {
@@ -75,12 +73,12 @@ export default {
     addDialog: {
       type: Boolean,
       default: false
+    },
+    types:{
+      type:Array
     }
   },
   methods: {
-    errorImg(err, file, fileList) {
-      console.log("img", err);
-    },
     beforeUploadImg(file) {
       let type = file.type.split("/")[0];
       if (type !== "image") {
@@ -89,9 +87,6 @@ export default {
       } else {
         this.imgtoken.key = rename(file);
       }
-    },
-    errorAudio(err, file, fileList) {
-      console.log("audio", err);
     },
     beforeUploadAudio(file) {
       let type = file.type.split("/")[0];
@@ -148,24 +143,12 @@ export default {
     clear(prop) {
       this.$refs["newItemInfo"].clearValidate(prop);
     },
-    // rename(file) {
-    //   return (
-    //     "museum/" +
-    //     createRandom() +
-    //     file.name.substring(file.name.lastIndexOf("."))
-    //   );
-    // },
     qiniuToken() {
-      if (!getUserInfoMessage("qiniu")) {
         getToken().then(result => {
           if (result.data.status === 200) {
-            saveUserInfo("qiniu", result.data.info);
             this.imgtoken.token=this.audiotoken.token=result.data.info
           }
         });
-      } else {
-        this.imgtoken.token = this.audiotoken.token= getUserInfoMessage("qiniu");
-      }
     }
   },
   data() {
@@ -187,7 +170,6 @@ export default {
         token: "",
         key: ""
       },
-      types: [],
       rules: {
         name: [
           {
@@ -203,19 +185,6 @@ export default {
         ]
       }
     };
-  },
-  mounted() {
-    getTypeName().then(result => {
-      if (result.data.status === 200) {
-        let info = result.data.info;
-        let obj = { value: "" };
-        for (let i in info) {
-          obj.value = info[i].typeName;
-          Object.assign(info[i], obj);
-        }
-        this.types = info;
-      }
-    });
   }
 };
 </script>

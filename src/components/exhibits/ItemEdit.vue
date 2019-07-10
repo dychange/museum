@@ -5,7 +5,7 @@
     :modal-append-to-body="false"
     :before-close="closeDialog"
     :close-on-click-modal="false"
-    top='4vh'
+    top='1vh'
     width="40%"
   >
     <el-form label-position="top" status-icon :model="editItem" :rules="rules" ref="editItem">
@@ -29,7 +29,6 @@
           :action="qiniuAction"
           list-type="picture"
           :data="imgtoken"
-          :on-error="errorImg"
           :limit="1"
           :before-upload="beforeUploadImg"
           :file-list='imgList'
@@ -44,7 +43,6 @@
           class="upload-demo"
           :action="qiniuAction"
           :data="audiotoken"
-          :on-error="errorAudio"
           :limit="1"
           :before-upload="beforeUploadAudio"
           :file-list="audioList"
@@ -53,7 +51,7 @@
           <div slot="tip" class="el-upload__tip">只能上传mp3文件且只能上传一个</div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="展品类型" required>
+      <el-form-item label="选择展区" required>
         <el-select v-model="editItem.typeId" filterable placeholder="请选择">
           <el-option v-for="item in types" :key="item.id" :label="item.typeName" :value="item.id"></el-option>
         </el-select>
@@ -70,12 +68,9 @@
 import { getToken } from "../../api/qiniu";
 import { getTypeName, updateItem } from "../../api/item";
 import {rename} from '../../lib/handleData'
-import { saveUserInfo, getUserInfoMessage} from '../../utils/localStorage'
 export default {
   name: "ItemEdit",
   methods: {
-     errorImg(err, file, fileList) {
-    },
     beforeUploadImg(file) {
       let type = file.type.split("/")[0];
       if (type !== "image") {
@@ -85,8 +80,6 @@ export default {
         this.editItem.oldImg=this.imgtoken.key
         this.imgtoken.key = rename(file);
       }
-    },
-    errorAudio(err, file, fileList) {
     },
     beforeUploadAudio(file) {
       let type = file.type.split("/")[0];
@@ -136,24 +129,12 @@ export default {
       this.$refs["editItem"].clearValidate(prop);
     },
     qiniuToken() {
-      if (!getUserInfoMessage("qiniu")) {
         getToken().then(result => {
           if (result.data.status === 200) {
-            saveUserInfo("qiniu", result.data.info);
             this.imgtoken.token=this.audiotoken.token=result.data.info
           }
         });
-      } else {
-        this.imgtoken.token = this.audiotoken.token= getUserInfoMessage("qiniu");
-      }
     },
-    //  rename(file) {
-    //   return (
-    //     "museum/" +
-    //     createRandom() +
-    //     file.name.substring(file.name.lastIndexOf("."))
-    //   );
-    // },
   },
   data() {
     return {
@@ -182,7 +163,6 @@ export default {
           }
         ],  
       },
-      types: []
     };
   },
   watch: {
@@ -207,21 +187,11 @@ export default {
     },
     curpage: {
       type: Number
+    },
+    types:{
+      type:Array
     }
   },
-  mounted() {
-    getTypeName().then(result => {
-      if (result.data.status === 200) {
-        let info = result.data.info;
-        let obj = { value: "" };
-        for (let i in info) {
-          obj.value = info[i].typeName;
-          Object.assign(info[i], obj);
-        }
-        this.types = info;
-      }
-    });
-  }
 };
 </script>
 
