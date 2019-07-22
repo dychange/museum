@@ -23,8 +23,9 @@
       <el-button style="margin-left:10px;" type="primary" size="small " @click="searchItem">查询</el-button>
       <el-button style="margin-left:10px;" type="primary" size="small " @click="resetItem">重置</el-button>
       <el-button class="add-btn" type="primary" @click="addDialog=true" size="small ">新增展品</el-button>
+      <el-button class="add-btn" type="primary" size="small " @click="exportToExcel">导出</el-button>
     </div>
-     <div class="moduleTitle">
+    <div class="moduleTitle">
       <i class="iconfont">&#xe6b6;</i>
       展品管理
     </div>
@@ -76,11 +77,18 @@
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column label="所在展区" prop="typeName" min-width="20%"></el-table-column>
-      <el-table-column label="展品名称" prop="name" min-width="20%"></el-table-column>
-      <el-table-column label="展品文字说明" prop="info" show-overflow-tooltip min-width="25%"></el-table-column>
+      <el-table-column label="编号" prop="number" min-width="5%" align="center"></el-table-column>
+      <el-table-column label="所在展区" prop="typeName" min-width="20%" align="center"></el-table-column>
+      <el-table-column label="展品名称" prop="name" min-width="20%" align="center"></el-table-column>
+      <el-table-column
+        label="展品文字说明"
+        prop="info"
+        show-overflow-tooltip
+        min-width="25%"
+        align="center"
+      ></el-table-column>
       <el-table-column label="添加人" prop="memberInfo.nickname" min-width="20%" align="center"></el-table-column>
-      <el-table-column label="编辑" fixed="right" width="250">
+      <el-table-column label="编辑" fixed="right" width="250" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button type="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
@@ -114,7 +122,13 @@
 </template>
 
 <script>
-import { getItemInfo, delItem, getTypeName , getItemName} from "../../api/item";
+import {
+  getItemInfo,
+  delItem,
+  getTypeName,
+  getItemName,
+  exportItem
+} from "../../api/item";
 import { handleAddTime } from "../../lib/handleData";
 import AddItem from "./AddItem";
 import ItemEdit from "./ItemEdit";
@@ -122,14 +136,33 @@ import Preview from "./preview";
 export default {
   name: "Item",
   methods: {
-    searchItem() {
-      this.paginations.currentPage=1
-      this.getAllItem()
+    exportToExcel() {
+      exportItem().then(result => {
+        if (result.data.status === 200) {
+          let list = result.data.info;
+          require.ensure([], () => {
+            const {
+              export_json_to_excel
+            } = require("../../assets/js/Export2Excel");
+            const tHeader = ["展品id", "展品名称", "展品链接"];
+            const filterVal = ["id", "name", "url"];
+            const data = this.formatJson(filterVal, list);
+            export_json_to_excel(tHeader, data, "excel");
+          });
+        }
+      });
     },
-    resetItem(){
-      this.itemType=this.itemName=null
-      this.paginations.currentPage=1
-      this.getAllItem()
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
+    },
+    searchItem() {
+      this.paginations.currentPage = 1;
+      this.getAllItem();
+    },
+    resetItem() {
+      this.itemType = this.itemName = null;
+      this.paginations.currentPage = 1;
+      this.getAllItem();
     },
     querySearch(queryString, cb) {
       let nameList = this.nameList;
@@ -191,8 +224,8 @@ export default {
       getItemInfo({
         page: 1,
         rows: this.paginations.pageSize,
-        itemName:this.itemName,
-        itemType:this.itemType
+        itemName: this.itemName,
+        itemType: this.itemType
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleAddTime(result);
@@ -205,8 +238,8 @@ export default {
       getItemInfo({
         page: this.paginations.currentPage,
         rows: this.paginations.pageSize,
-        itemName:this.itemName,
-        itemType:this.itemType
+        itemName: this.itemName,
+        itemType: this.itemType
       }).then(result => {
         if (result.data.status === 200) {
           this.itemList = handleAddTime(result);
@@ -261,11 +294,11 @@ export default {
         this.types = info;
       }
     });
-    getItemName().then((result) => {
-        if(result.data.status===200){
-          this.nameList=result.data.info
-        }
-    })
+    getItemName().then(result => {
+      if (result.data.status === 200) {
+        this.nameList = result.data.info;
+      }
+    });
   },
   components: {
     AddItem,

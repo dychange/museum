@@ -88,6 +88,14 @@ const getItemName=(data)=>{
     })
 } 
 
+const exportItem=(data)=>{
+    return axios.request({
+        url:'/exportExhibitsInfo',
+        method:'post',
+        data
+    })
+}
+
 export {
     getItemTypeInfo,
     addItemType,
@@ -99,5 +107,6 @@ export {
     getTypeName,
     delItem,
     updateItem,
-    getItemName
+    getItemName,
+    exportItem
 }
