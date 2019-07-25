@@ -137,15 +137,19 @@ export default {
   name: "Item",
   methods: {
     exportToExcel() {
-      exportItem().then(result => {
+      let msg={
+        itemName:this.itemName,
+        itemType:this.itemType
+      }
+      exportItem(msg).then(result => {
         if (result.data.status === 200) {
           let list = result.data.info;
           require.ensure([], () => {
             const {
               export_json_to_excel
             } = require("../../assets/js/Export2Excel");
-            const tHeader = ["展品id", "展品名称", "展品链接"];
-            const filterVal = ["id", "name", "url"];
+            const tHeader = ["展品id", "展品名称", "展品链接","展区"];
+            const filterVal = ["id", "name", "url","type"];
             const data = this.formatJson(filterVal, list);
             export_json_to_excel(tHeader, data, "excel");
           });

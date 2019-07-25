@@ -26,7 +26,7 @@ class HttpRequest {
         instance.interceptors.request.use(config => {
             //  如果队列中没有请求则开始加载动画
             // console.log('请求拦截：',config)
-            if(!config.url.endsWith('/verification')){
+            if(!config.url.endsWith('/verification') && !config.url.endsWith('/logout.do')){
                 startLoading()
             }
             // 将Token设置到headers中

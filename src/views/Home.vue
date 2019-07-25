@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header >
+    <el-header>
       <router-link to="/">
-        <img class="header-img" v-lazy="headerIcon" :key="headerIcon">
+        <img class="header-img" v-lazy="headerIcon" :key="headerIcon" />
       </router-link>
       <el-dropdown class="dropdown" @command="dropDownEvents">
         <div>
@@ -15,13 +15,16 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="edit">
             <i class="el-icon-edit"></i>
-            修改个人资料</el-dropdown-item>
+            修改个人资料
+          </el-dropdown-item>
           <el-dropdown-item command="pass">
-      <i class="el-icon-key"></i>
-            修改密码</el-dropdown-item>
+            <i class="el-icon-key"></i>
+            修改密码
+          </el-dropdown-item>
           <el-dropdown-item command="exit">
             <i class="el-icon-switch-button"></i>
-            退出</el-dropdown-item>
+            退出
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
@@ -38,6 +41,7 @@
 <script>
 import HomeMenu from "./Menu";
 import { getUserInfoMessage, clearLocalStorage } from "../utils/localStorage";
+import { logout } from "../api/user";
 export default {
   name: "home",
   components: {
@@ -46,8 +50,7 @@ export default {
   data() {
     return {
       nickname: "",
-      headerIcon: 'http://ptljizme7.bkt.clouddn.com/important/title.jpg',
-      headerImg:'http://ptljizme7.bkt.clouddn.com/important/header.jpg'
+      headerIcon: "http://ptljizme7.bkt.clouddn.com/important/title.jpg"
     };
   },
   methods: {
@@ -55,18 +58,19 @@ export default {
     dropDownEvents(command) {
       switch (command) {
         case "exit":
-          clearLocalStorage();
-          this.$message.success({
-            message: "已退出",
-            duration: 1000
+          logout().then(result => {
+            if (result.data.status === 200) {
+              clearLocalStorage();
+              this.$message.success(result.data.msg);
+              this.$router.replace("/login");
+            }
           });
-          this.$router.replace("/login");
           break;
         case "edit":
           this.$router.push("/editself");
           break;
         case "pass":
-          this.$router.replace("/editpass");
+          this.$router.push("/editpass");
       }
     }
   },
@@ -92,7 +96,7 @@ export default {
   background-color: #fff;
 }
 
-.el-main{
+.el-main {
   padding: 0 15px;
 }
 
@@ -115,8 +119,8 @@ export default {
   height: 100%;
   margin-left: 2%;
 }
-.Stripe{
+.Stripe {
   height: 30px;
-  background-color: #CC6633;
+  background-color: #cc6633;
 }
 </style>

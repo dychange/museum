@@ -8,6 +8,14 @@ const login= (data) =>{
     })
 }
 
+const logout=(data)=>{
+    return axios.request({
+        url:'/logout.do',
+        method:'post',
+        data
+    })
+}
+
 const editInfo=(data)=>{
     return axios.request({
         url:'/personInfo/updatePersonInfo',
@@ -27,5 +35,6 @@ const editpass=(data)=>{
 export {
     login,
     editInfo,
-    editpass
+    editpass,
+    logout
 }

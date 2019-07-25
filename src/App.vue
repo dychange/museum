@@ -1,10 +1,12 @@
 <template>
-  <div id="app">
-    <router-view v-if="isRouterAlive"/>
+  <div id="app" @click="isAlive" tabindex="0" @keydown="isAlive">
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
 
 <script>
+import { getUserInfoMessage, clearLocalStorage } from "./utils/localStorage";
+import { logout } from "./api/user";
 export default {
   provide() {
     return {
@@ -13,7 +15,9 @@ export default {
   },
   data() {
     return {
-      isRouterAlive: true
+      isRouterAlive: true,
+      timeout: 60* 60 * 1000,
+      currentTime: new Date().getTime()
     };
   },
   methods: {
@@ -22,6 +26,23 @@ export default {
       this.$nextTick(function() {
         this.isRouterAlive = true;
       });
+    },
+    isAlive() {
+      let lastTime = new Date().getTime();
+      if (
+        lastTime - this.currentTime >= this.timeout &&
+        getUserInfoMessage("userInfo")
+      ) {
+        logout().then(result => {
+          if (result.data.status === 200) {
+            clearLocalStorage();
+            this.$message.error("由于长时间未操作,已退出登录");
+            this.$router.replace("/login");
+          }
+        });
+      } else {
+        this.currentTime = lastTime;
+      }
     }
   }
 };
@@ -34,13 +55,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   height: 100%;
+  outline: 0;
 }
-.moduleTitle{
+.moduleTitle {
   font-size: 13px;
   line-height: 25px;
-  border-bottom: 1px solid #C0C4CC;
+  border-bottom: 1px solid #c0c4cc;
   margin-bottom: 10px;
-} 
+}
 
 .el-pagination__total,
 .header th {
@@ -54,15 +76,16 @@ export default {
 }
 .add-btn {
   float: right;
-  margin-bottom: 10px  !important;
+  margin-bottom: 10px !important;
 }
-.el-button--primary{
-  background-color: #CC6633 !important;
-  border-color: #CC6633 !important;
+.el-button--primary {
+  background-color: #cc6633 !important;
+  border-color: #cc6633 !important;
 }
-.el-button--primary:focus, .el-button--primary:hover{
-  background-color:	#EE7700 !important;
-  border-color:	#EE7700 !important;
+.el-button--primary:focus,
+.el-button--primary:hover {
+  background-color: #ee7700 !important;
+  border-color: #ee7700 !important;
 }
 .el-table thead {
   font-weight: bolder !important;
