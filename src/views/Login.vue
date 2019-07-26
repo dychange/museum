@@ -73,7 +73,7 @@ export default {
           }
         ],
       },
-      titleImg:'http://ptljizme7.bkt.clouddn.com/important/title.jpg'
+      titleImg:'http://museum.sharemoretech.com/important/title.jpg'
     };
   },
   methods: {
@@ -122,7 +122,7 @@ export default {
   text-align: center;
 }
 .el-container{
- background: url('http://ptljizme7.bkt.clouddn.com/important/bklogin.jpg') no-repeat;
+ background: url('http://museum.sharemoretech.com/important/bklogin.jpg') no-repeat;
   background-size: 100% 100%;
   height: 100%;
 }

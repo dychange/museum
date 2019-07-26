@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       nickname: "",
-      headerIcon: "http://ptljizme7.bkt.clouddn.com/important/title.jpg",
+      headerIcon: "http://museum.sharemoretech.com/important/title.jpg",
       timer:''
     };
   },

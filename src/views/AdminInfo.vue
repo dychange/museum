@@ -28,7 +28,7 @@ export default {
               phone:'无',
               type:''
           },
-          Img:'http://ptljizme7.bkt.clouddn.com/important/adminInfo.jpg'
+          Img:'http://museum.sharemoretech.com/important/adminInfo.jpg'
       }
   },
   created() {

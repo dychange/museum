@@ -4,6 +4,7 @@ module.exports={
     publicPath: BASE_URL,
     assetsDir: 'assets',
     outputDir: 'dist',
+    productionSourceMap:false,
     devServer: {
         proxy: {
             '/api': {
