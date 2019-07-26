@@ -41,7 +41,7 @@
 <script>
 import HomeMenu from "./Menu";
 import { getUserInfoMessage, clearLocalStorage } from "../utils/localStorage";
-import { logout } from "../api/user";
+import { logout , isOnline} from "../api/user";
 export default {
   name: "home",
   components: {
@@ -50,7 +50,8 @@ export default {
   data() {
     return {
       nickname: "",
-      headerIcon: "http://ptljizme7.bkt.clouddn.com/important/title.jpg"
+      headerIcon: "http://ptljizme7.bkt.clouddn.com/important/title.jpg",
+      timer:''
     };
   },
   methods: {
@@ -81,6 +82,19 @@ export default {
     } else {
       this.nickname = userInfo.nickname;
     }
+  },
+  mounted() {
+    isOnline()
+      if (this.timer) {
+        clearInterval(this.timer);
+      } else {
+        this.timer = setInterval(() => {
+            isOnline()
+        }, 5000);
+      }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 };
 </script>

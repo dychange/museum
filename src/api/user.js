@@ -16,6 +16,14 @@ const logout=(data)=>{
     })
 }
 
+const isOnline=(data)=>{
+    return axios.request({
+        url:'/heartbeat/decide',
+        method:'post',
+        data
+    })
+}
+
 const editInfo=(data)=>{
     return axios.request({
         url:'/personInfo/updatePersonInfo',
@@ -36,5 +44,6 @@ export {
     login,
     editInfo,
     editpass,
-    logout
+    logout,
+    isOnline
 }

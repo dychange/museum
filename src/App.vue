@@ -1,12 +1,12 @@
 <template>
-  <div id="app" @click="isAlive" tabindex="0" @keydown="isAlive">
+  <div id="app" @click="isAlive" tabindex="0" @mouseover="isAlive" @keydown="isAlive">
     <router-view v-if="isRouterAlive" />
   </div>
 </template>
 
 <script>
 import { getUserInfoMessage, clearLocalStorage } from "./utils/localStorage";
-import { logout } from "./api/user";
+import { logout , isOnline} from "./api/user";
 export default {
   provide() {
     return {
@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       isRouterAlive: true,
-      timeout: 60* 60 * 1000,
+      timeout: 60 * 60 * 1000,
       currentTime: new Date().getTime()
     };
   },

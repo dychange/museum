@@ -144,6 +144,7 @@ export default {
       exportItem(msg).then(result => {
         if (result.data.status === 200) {
           let list = result.data.info;
+          console.log(result)
           require.ensure([], () => {
             const {
               export_json_to_excel

@@ -1,6 +1,5 @@
 /* eslint-disable */
 require('script-loader!file-saver');
-// require('script-loader!src/vendor/Blob');
 require('./Blob.js');
 require('script-loader!xlsx/dist/xlsx.core.min');
 
