@@ -75,6 +75,21 @@ export default [
             path:'/datatotal',
             name:'DataTotal',
             component:()=> import ('../components/statistics/DataTotal.vue')
+          },
+          {
+            path:'/article',
+            name:'CreateArt',
+            component:()=> import ('../components/article/CreateArt.vue')
+          },
+          {
+            path:'/allarticle',
+            name:'Article',
+            component:()=> import ('../components/article/Article.vue')
+          },
+          {
+            path:'/servercenter',
+            name:'ServerCenter',
+            component:()=> import('../components/article/ServerCenter.vue')
           }
         ]
       },

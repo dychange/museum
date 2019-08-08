@@ -19,6 +19,7 @@
 
 <script>
 import {getUserInfoMessage} from '../utils/localStorage'
+import {getDomain} from '../api/qiniu'
 export default {
   name: "AdminInfo",
   data() {
@@ -28,7 +29,7 @@ export default {
               phone:'无',
               type:''
           },
-          Img:'http://museum.sharemoretech.com/important/adminInfo.jpg'
+          Img:''
       }
   },
   created() {
@@ -39,6 +40,11 @@ export default {
           phone:adminInfo.phone,
           type:Admintype === 1 ? '超级管理员' : ( Admintype === 2 ? '管理员' : '客服')
       }
+      getDomain().then((result) => {
+        if(result.data.status===200){
+          this.Img=result.data.info+'important/adminInfo.jpg'
+        }
+      })
   },
 };
 </script>

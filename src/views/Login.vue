@@ -1,7 +1,7 @@
 <template>
-  <el-container>
+  <el-container v-lazy:backgroundImage='bgImg'>
     <el-header><img class="header-img" v-lazy="titleImg" :key="titleImg"></el-header>
-    <el-container>
+    <el-container >
       <el-main >
         <el-form
           status-icon
@@ -50,6 +50,7 @@
 <script>
 import { login } from "../api/user";
 import { saveUserInfo, getUserInfoMessage } from "../utils/localStorage";
+import { getDomain } from "../api/qiniu";
 export default {
   name: "Login",
   data() {
@@ -73,7 +74,8 @@ export default {
           }
         ],
       },
-      titleImg:'http://museum.sharemoretech.com/important/title.jpg'
+      titleImg:'',
+      bgImg:''
     };
   },
   methods: {
@@ -106,6 +108,12 @@ export default {
     if (getUserInfoMessage("userInfo")) {
       this.$router.replace("/index");
     }
+     getDomain().then((result) => {
+        if(result.data.status===200){
+          this.titleImg=result.data.info+'important/title.jpg'
+          this.bgImg=result.data.info+'important/bklogin.jpg'
+        }
+      });
   }
 };
 </script>
@@ -122,7 +130,7 @@ export default {
   text-align: center;
 }
 .el-container{
- background: url('http://museum.sharemoretech.com/important/bklogin.jpg') no-repeat;
+ background-repeat: no-repeat;
   background-size: 100% 100%;
   height: 100%;
 }

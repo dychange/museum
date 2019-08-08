@@ -8,7 +8,7 @@ module.exports={
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://192.168.0.111:8080/museum', 
+                target: 'http://192.168.3.45:8080/museum', 
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {

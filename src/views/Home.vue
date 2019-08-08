@@ -28,7 +28,12 @@
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
-    <div class="Stripe"></div>
+    <el-row>
+      <el-col :span="24">
+        <div class="Stripe"></div>
+      </el-col>
+    </el-row>
+
     <el-container>
       <home-menu></home-menu>
       <el-main>
@@ -41,7 +46,8 @@
 <script>
 import HomeMenu from "./Menu";
 import { getUserInfoMessage, clearLocalStorage } from "../utils/localStorage";
-import { logout , isOnline} from "../api/user";
+import { logout, isOnline } from "../api/user";
+import { getDomain } from '../api/qiniu'
 export default {
   name: "home",
   components: {
@@ -49,9 +55,9 @@ export default {
   },
   data() {
     return {
-      nickname: "",
-      headerIcon: "http://museum.sharemoretech.com/important/title.jpg",
-      timer:''
+      nickname:"",
+      headerIcon: "",
+      timer: ""
     };
   },
   methods: {
@@ -76,6 +82,11 @@ export default {
     }
   },
   created() {
+    getDomain().then((result) => {
+      if(result.data.status===200){
+        this.headerIcon=result.data.info+'important/title.jpg'
+      }
+    })
     let userInfo = getUserInfoMessage("userInfo");
     if (userInfo.nickname === null) {
       this.nickname = userInfo.userName;
@@ -84,14 +95,14 @@ export default {
     }
   },
   mounted() {
-    isOnline()
-      if (this.timer) {
-        clearInterval(this.timer);
-      } else {
-        this.timer = setInterval(() => {
-            isOnline()
-        }, 5000);
-      }
+    isOnline();
+    if (this.timer) {
+      clearInterval(this.timer);
+    } else {
+      this.timer = setInterval(() => {
+        isOnline();
+      }, 5000);
+    }
   },
   beforeDestroy() {
     clearInterval(this.timer);

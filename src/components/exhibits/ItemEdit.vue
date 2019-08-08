@@ -131,7 +131,7 @@ export default {
     qiniuToken() {
         getToken().then(result => {
           if (result.data.status === 200) {
-            this.imgtoken.token=this.audiotoken.token=result.data.info
+            this.imgtoken.token=this.audiotoken.token=result.data.info.token
           }
         });
     },

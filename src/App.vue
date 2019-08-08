@@ -5,8 +5,12 @@
 </template>
 
 <script>
-import { getUserInfoMessage, clearLocalStorage } from "./utils/localStorage";
-import { logout , isOnline} from "./api/user";
+import {
+  getUserInfoMessage,
+  clearLocalStorage,
+  saveUserInfo
+} from "./utils/localStorage";
+import { logout, isOnline } from "./api/user";
 export default {
   provide() {
     return {

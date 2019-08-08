@@ -37,6 +37,15 @@ const handleAddTime=(result)=>{
   return list
 }
 
+const handleArtTime=(result)=>{
+  let list =result.data.info.rows
+  for (let i in list){
+    let addTime=formatDate(list[i].essayInfo.addTime)
+    list[i].essayInfo.addTime=addTime
+  }
+  return list
+}
+
 const handleLostData=(result)=>{
       let list=result.data.info.rows
       for(let i in list){
@@ -103,5 +112,6 @@ export {
   handleLostData,
   createRandom,
   rename,
-  handleSelectData
+  handleSelectData,
+  handleArtTime
 }

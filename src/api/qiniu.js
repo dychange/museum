@@ -7,6 +7,14 @@ const getToken=()=>{
     })
 }
 
+const getDomain=(data)=>{
+    return axios.request({
+        url:'/file/bucketHostName',
+        method:'post',
+        data
+    })
+}
+
 const delPhoto=(data)=>{
     return axios.request({
         url:'/file/delete',
@@ -19,5 +27,6 @@ const delPhoto=(data)=>{
 
 export {
     getToken,
-    delPhoto
+    delPhoto,
+    getDomain
 }

@@ -73,6 +73,19 @@
               </router-link>
             </el-menu-item-group>
           </el-submenu>
+          <el-submenu index="7">
+            <template slot="title">
+              <i class="el-icon-document"></i>官网管理
+            </template>
+            <el-menu-item-group>
+              <router-link tag="li" to="/allarticle">
+              <el-menu-item index="7-1">文章</el-menu-item>
+              </router-link>
+              <router-link tag="li" to="/servercenter">
+              <el-menu-item index="7-2">服务中心</el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </el-aside>
 </template>

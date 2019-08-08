@@ -90,8 +90,8 @@
       <el-table-column label="添加人" prop="memberInfo.nickname" min-width="20%" align="center"></el-table-column>
       <el-table-column label="编辑" fixed="right" width="250" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-          <el-button type="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
+          <el-button size="mini" type='primary' @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+          <el-button size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
